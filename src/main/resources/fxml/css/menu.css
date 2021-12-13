@@ -1,0 +1,48 @@
+.root{
+-fx-background-color:white;
+}
+.box{
+/*-fx-background-color:linear-gradient(to bottom, #2262C6,#E839F6);*/
+    -fx-border-color:#caced1;
+    -fx-background-radius: 0px 50px 0px 0px;
+    -fx-border-radius:  0px 50px 0px 0px;
+}
+.box .glyph-icon{
+    -fx-fill:#FF8800;
+}
+.text-menuitem{
+    -fx-font-family:Berlin Sans FB;
+    -fx-font-size:20px;
+    -fx-font-weight: bold;
+    -fx-fill:#FFFFFF;
+}
+.menutitle{
+     -fx-border-color: transparent transparent #caced1 transparent;
+     -fx-background-radius:0px 50px 0px 0px;
+     -fx-background-color:#4285f4;
+    /*-fx-border: 0px 50px 0px 0px;
+    -fx-border-radius:  0px 50px 0px 0px;*/
+}
+.menutitle .glyph-icon{
+    -fx-fill:#FFFFFF;
+}
+.text-menu{
+    -fx-font-family:Roboto;
+    -fx-font-size:18px;
+    -fx-fill:#4285f4;
+    -fx-margin-top:5;
+}
+.menu:hover{
+    -fx-background-color:#e6eaee;
+    -fx-border-color:#0fbcf9;
+    -fx-border-width:0px 0px 0px 2px;
+    -fx-cursor:hand;
+
+}
+.menu .glyph-icon{
+    -fx-fill:#4285f4;
+
+}
+.menu:pressed{
+    -fx-background-color:transparent;
+}

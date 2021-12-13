@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="747.0" prefWidth="930.0" stylesheets="@../css/bill.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.transaction.BillingController">
+   <children>
+      <Pane layoutX="38.0" layoutY="88.0" prefHeight="194.0" prefWidth="918.0" styleClass="pane" AnchorPane.bottomAnchor="553.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="14.0" layoutY="19.0" spacing="10.0">
+               <children>
+                  <Label text="Bill No">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <MFXTextField lineStrokeWidth="1.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label text="Date">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <MFXDatePicker maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="107.0" />
+               </children>
+            </HBox>
+            <Label layoutX="14.0" layoutY="67.0" text="Customer Name" />
+            <HBox layoutX="14.0" layoutY="84.0" spacing="10.0">
+               <children>
+                  <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="235.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXButton stylesheets="@../css/button.css" text="SEARCH">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="PLUS" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="235.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXButton stylesheets="@../css/button.css" text="ADD">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="PLUS" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXButton>
+               </children>
+            </HBox>
+            <Label layoutX="326.0" layoutY="61.0" text="Customer Contact" />
+            <Label layoutX="14.0" layoutY="129.0" text="Bike Company  Name" />
+            <HBox layoutX="14.0" layoutY="146.0" spacing="5.0">
+               <children>
+                  <MFXTextField lineStrokeWidth="1.0" prefHeight="30.0" prefWidth="176.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField lineStrokeWidth="1.0" prefHeight="30.0" prefWidth="176.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField lineStrokeWidth="1.0" prefHeight="30.0" prefWidth="176.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </MFXTextField>
+               </children>
+            </HBox>
+            <Label layoutX="191.0" layoutY="129.0" text="Bike Model Name" />
+            <Label layoutX="368.0" layoutY="129.0" text="Current Killometers" />
+         </children>
+      </Pane>
+      <TabPane layoutY="198.0" prefHeight="379.0" prefWidth="918.0" stylesheets="@../css/tab.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="170.0" AnchorPane.leftAnchor="0.0">
+        <tabs>
+          <Tab text="BILLING">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="188.0" layoutY="9.0" text="Item Name" textFill="#7d91ee" />
+                        <Label layoutX="467.0" layoutY="9.0" text="Rate" textFill="#7d91ee" />
+                        <Label layoutX="14.0" layoutY="9.0" text="Part Number" textFill="#7d91ee" />
+                        <Label layoutX="623.0" layoutY="9.0" text="Quantity" textFill="#7d91ee" />
+                        <HBox layoutX="15.0" layoutY="28.0" spacing="10.0">
+                           <children>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="155.0" promptText="Part Number">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="275.0" promptText="Item Name">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="142.0" promptText="Rate">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="17.0" prefWidth="142.0" promptText="Quantity">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="17.0" prefWidth="142.0" promptText="Amount">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="15.0" layoutY="72.0" spacing="10.0">
+                           <children>
+                              <MFXButton stylesheets="@../css/button.css" text="ADD">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="CART_PLUS" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton stylesheets="@../css/button.css" text="UPDATE">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="EDIT" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton stylesheets="@../css/button.css" text="REMOVE">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="REMOVE" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton stylesheets="@../css/button.css" text="CLEAR">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="RECYCLE" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                        <TableView layoutX="15.0" layoutY="110.0" prefHeight="219.0" prefWidth="891.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0">
+                          <columns>
+                            <TableColumn prefWidth="56.0" text="Sr.No" />
+                            <TableColumn prefWidth="170.0" text="Part No" />
+                              <TableColumn prefWidth="310.0" text="Item Name" />
+                              <TableColumn prefWidth="114.0" text="Rate" />
+                              <TableColumn prefWidth="115.0" text="Quantity" />
+                              <TableColumn prefWidth="125.0" text="Amount" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="771.0" layoutY="9.0" text="Quantity" textFill="#7d91ee" />
+                        <Label layoutX="675.0" layoutY="320.0" text="Net Total" />
+                        <TextField layoutX="733.0" layoutY="313.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="JOB DESCRIPTION">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="215.0" layoutY="10.0" text="Job Name" textFill="#7d91ee" />
+                        <Label layoutX="440.0" layoutY="10.0" text="Quantity" textFill="#7d91ee" />
+                        <Label layoutX="610.0" layoutY="10.0" text="Job Charges" textFill="#7d91ee" />
+                        <Label layoutX="23.0" layoutY="10.0" text="Mechanical Name" textFill="#7d91ee" />
+                        <Label layoutX="767.0" layoutY="10.0" text="Amount" textFill="#7d91ee" />
+                        <HBox layoutX="14.0" layoutY="28.0" spacing="5.0">
+                           <children>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="30.0" prefWidth="196.0" promptText="Mechanical Name">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="216.0" promptText="Job Name">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="30.0" prefWidth="162.0" promptText="Job Quantity">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="30.0" prefWidth="150.0" promptText="Job Quantity" text="Job Charges">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                              <MFXTextField lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="150.0" promptText="Job Quantity" text="Job Amount">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXTextField>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="14.0" layoutY="73.0" spacing="10.0">
+                           <children>
+                              <MFXButton stylesheets="@../css/button.css" text="ADD">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="CART_PLUS" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton stylesheets="@../css/button.css" text="UPDATE">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="EDIT" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton stylesheets="@../css/button.css" text="REMOVE">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="REMOVE" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton stylesheets="@../css/button.css" text="CLEAR">
+                                 <graphic>
+                                    <FontAwesomeIcon glyphName="RECYCLE" size="1.5em" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                        <TableView layoutX="18.0" layoutY="111.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="10.0">
+                          <columns>
+                            <TableColumn prefWidth="43.0" text="Sr.No" />
+                            <TableColumn prefWidth="241.0" text="Mechanical Name" />
+                              <TableColumn prefWidth="277.0" text="Job Name" />
+                              <TableColumn prefWidth="83.0" text="Job Quantity" />
+                              <TableColumn prefWidth="128.0" text="Job Charges" />
+                              <TableColumn prefWidth="116.0" text="Job Amount" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="675.0" layoutY="320.0" text="Net Total" />
+                        <TextField layoutX="735.0" layoutY="313.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="28.0" layoutY="577.0" text="Item Total" AnchorPane.bottomAnchor="137.0" AnchorPane.topAnchor="577.0" />
+      <Label layoutX="190.0" layoutY="577.0" text="Mechanical Charges" AnchorPane.bottomAnchor="137.0" AnchorPane.topAnchor="577.0" />
+      <Label layoutX="352.0" layoutY="577.0" text="Service Charges" AnchorPane.bottomAnchor="137.0" AnchorPane.topAnchor="577.0" />
+      <Label layoutX="511.0" layoutY="577.0" text="Discount" AnchorPane.bottomAnchor="137.0" AnchorPane.topAnchor="577.0" />
+      <Label layoutX="671.0" layoutY="577.0" text="Grand Total" AnchorPane.bottomAnchor="137.0" AnchorPane.topAnchor="577.0" />
+      <HBox layoutX="28.0" layoutY="610.0" spacing="10.0" AnchorPane.bottomAnchor="107.0">
+         <children>
+            <TextField prefWidth="150.0" text="1000000.00">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField prefWidth="150.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField prefWidth="150.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField prefWidth="150.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField prefWidth="150.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox layoutX="28.0" layoutY="663.0" spacing="10.0">
+         <children>
+            <Label text="Select Bank Name">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+            <MFXComboBox prefHeight="27.0" prefWidth="249.0" promptText="Select Bank Name" />
+            <Label text="Paid Amount">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox layoutX="27.0" layoutY="707.0" spacing="10.0">
+         <children>
+            <MFXButton buttonType="RAISED" stylesheets="@../css/button.css" text="SAVE">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SAVE" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXButton>
+            <MFXButton buttonType="RAISED" stylesheets="@../css/button.css" text="UPADTE">
+               <graphic>
+                  <FontAwesomeIcon glyphName="EDIT" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXButton>
+            <MFXButton buttonType="RAISED" stylesheets="@../css/button.css" text="CLEAR">
+               <graphic>
+                  <FontAwesomeIcon glyphName="RECYCLE" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXButton>
+            <MFXButton buttonType="RAISED" stylesheets="@../css/button.css" text="PRINT">
+               <graphic>
+                  <FontAwesomeIcon glyphName="PRINT" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXButton>
+            <MFXButton buttonType="RAISED" stylesheets="@../css/button.css" text="EXIT">
+               <graphic>
+                  <FontAwesomeIcon glyphName="HOME" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

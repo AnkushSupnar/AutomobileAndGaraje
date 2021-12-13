@@ -1,0 +1,7 @@
+.title{
+    -fx-background-color: #2262C6;
+}
+.title-text{
+    -fx-font-size : 16px;
+    -fx-fill:#ffffff;
+}

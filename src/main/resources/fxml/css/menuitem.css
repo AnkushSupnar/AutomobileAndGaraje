@@ -1,0 +1,19 @@
+.text-menuitem {
+ -fx-font-smoothing-type: lcd;
+ -fx-fill: white;
+ -fx-font-size: 11pt;
+}
+.menuitem .glyph-icon{
+    -fx-fill:white;
+}
+
+.menuitem:hover{
+-fx-border-color:#0fbcf9;
+-fx-border-width:0px 0px 0px 4px;
+-fx-background-color:#34e7e4e0;
+-fx-cursor:hand;
+}
+
+.menuitem:pressed{
+    -fx-background-color:#2262C6;
+}

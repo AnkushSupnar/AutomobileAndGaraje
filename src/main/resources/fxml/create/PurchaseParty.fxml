@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="mainPane" prefHeight="659.0" prefWidth="1180.0" stylesheets="@../css/addcustomer.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.PurchasePartyController">
+   <children>
+      <StackPane layoutX="377.0" layoutY="23.0" prefHeight="47.0" prefWidth="200.0" styleClass="title" stylesheets="@../css/title.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Add Purchase Party" />
+         </children>
+      </StackPane>
+      <VBox layoutY="78.0" prefHeight="570.0" prefWidth="401.0" styleClass="box" stylesheets="@../css/external/bootstrap.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <StackPane prefHeight="90.0" prefWidth="370.0">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="BUS" size="5em" StackPane.alignment="TOP_CENTER">
+                     <StackPane.margin>
+                        <Insets top="5.0" />
+                     </StackPane.margin>
+                  </FontAwesomeIcon>
+                  <Text fill="#4285f4" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase party" StackPane.alignment="BOTTOM_CENTER">
+                     <font>
+                        <Font name="Georgia" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </StackPane>
+            <Label text="Party Name" textFill="#b2caf2">
+               <font>
+                  <Font name="Georgia" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
+               </VBox.margin>
+            </Label>
+            <MFXTextField fx:id="txtName" lineStrokeCap="SQUARE" lineStrokeWidth="1.0" prefHeight="35.0" prefWidth="355.0" promptText="Party Name" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </MFXTextField>
+            <Label layoutX="10.0" layoutY="103.0" text="Party Address" textFill="#b2caf2">
+               <font>
+                  <Font name="Georgia" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
+               </VBox.margin>
+            </Label>
+            <MFXTextField fx:id="txtAddress" layoutX="10.0" layoutY="183.0" lineStrokeWidth="1.0" prefHeight="35.0" prefWidth="355.0" promptText="Party Address">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </MFXTextField>
+            <Label layoutX="10.0" layoutY="119.0" text="Party Contact" textFill="#b2caf2">
+               <font>
+                  <Font name="Georgia" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
+               </VBox.margin>
+            </Label>
+            <MFXTextField fx:id="txtContact" layoutX="10.0" layoutY="208.0" lineStrokeWidth="1.0" prefWidth="355.0" promptText="Party Contact">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </MFXTextField>
+            <Label layoutX="10.0" layoutY="135.0" text="Party PAN" textFill="#b2caf2">
+               <font>
+                  <Font name="Georgia" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
+               </VBox.margin>
+            </Label>
+            <MFXTextField fx:id="txtPan" layoutX="10.0" layoutY="233.0" lineStrokeWidth="1.0" prefWidth="355.0" promptText="Party PAN">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </MFXTextField>
+            <Label layoutX="10.0" layoutY="151.0" text="Party Contact" textFill="#b2caf2">
+               <font>
+                  <Font name="Georgia" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
+               </VBox.margin>
+            </Label>
+            <MFXTextField fx:id="txtGst" layoutX="10.0" layoutY="258.0" lineStrokeWidth="1.0" prefWidth="355.0" promptText="Party GST">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </MFXTextField>
+            <HBox spacing="10.0">
+               <children>
+                  <MFXButton fx:id="btnSave" buttonType="RAISED" depthLevel="LEVEL0" rippleColor="#2262c6" stylesheets="@../css/button.css" text="SAVE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="btnUpdate" depthLevel="LEVEL0" rippleColor="#2262c6" stylesheets="@../css/button.css" text="UPDATE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="btnClear" depthLevel="LEVEL0" rippleColor="#2262c6" stylesheets="@../css/button.css" text="CLEAR">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="btnExit" depthLevel="LEVEL0" rippleColor="#2262c6" stylesheets="@../css/button.css" text="EXIT">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </MFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="10.0" top="30.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </VBox>
+      <TableView fx:id="table" layoutX="419.0" layoutY="99.0" prefHeight="531.0" prefWidth="751.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="419.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="99.0">
+        <columns>
+          <TableColumn fx:id="colSrno" prefWidth="46.0" text="SR.NO" />
+          <TableColumn fx:id="colName" prefWidth="172.0" text="PARTY NAME" />
+            <TableColumn fx:id="colAddress" prefWidth="122.0" text="ADDRESS" />
+            <TableColumn fx:id="colContact" prefWidth="144.0" text="CONTACT" />
+            <TableColumn fx:id="colPan" prefWidth="119.0" text="PAN" />
+            <TableColumn fx:id="colGst" prefWidth="147.0" text="GST" />
+        </columns>
+      </TableView>
+      <HBox layoutX="420.0" layoutY="59.0" spacing="10.0">
+         <children>
+            <MFXTextField fx:id="txtSearchParty" lineStrokeWidth="1.0" prefHeight="25.0" prefWidth="242.0" promptText="Party Name">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MFXTextField>
+            <MFXButton fx:id="btnSearch" stylesheets="@../css/button.css" text="SEARCH">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SEARCH" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="btnShow" stylesheets="@../css/button.css" text="SHOW ALL">
+               <graphic>
+                  <FontAwesomeIcon glyphName="LIST" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

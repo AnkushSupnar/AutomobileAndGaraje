@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="612.0" prefWidth="1021.0" stylesheets="@../css/addcustomer.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.AddCustomerController">
+   <children>
+      <StackPane layoutX="199.0" layoutY="55.0" prefHeight="42.0" prefWidth="731.0" style="-fx-background-color: #2262C6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Customer">
+               <font>
+                  <Font name="Georgia" size="16.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+      <VBox layoutX="71.0" layoutY="119.0" prefHeight="570.0" prefWidth="363.0" styleClass="box" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="42.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <StackPane>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <FontAwesomeIcon glyphName="USER_PLUS" size="7em" />
+               </children>
+            </StackPane>
+            <Label text="Customer Name">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtCustomerName" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="10.0" text="Address Line 1">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtAddresline" layoutX="10.0" layoutY="27.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="52.0" text="Village">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtCity" layoutX="10.0" layoutY="69.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="94.0" text="Taluka">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtTaluka" layoutX="10.0" layoutY="111.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="136.0" text="District">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtDistrict" layoutX="10.0" layoutY="153.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="178.0" text="Contact No">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtcontact" layoutX="10.0" layoutY="195.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="220.0" text="Alternate Mobile No">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtMobile" layoutX="10.0" layoutY="237.0" prefHeight="25.0" prefWidth="342.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <HBox spacing="10.0">
+               <children>
+                  <Button fx:id="btnSave" mnemonicParsing="false" stylesheets="@../css/button.css" text="SAVE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" stylesheets="@../css/button.css" text="UPDATE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="EDIT" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnClear" mnemonicParsing="false" stylesheets="@../css/button.css" text="CLEAR">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="RECYCLE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnHome" mnemonicParsing="false" stylesheets="@../css/button.css" text="HOME">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="HOME" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <TableView fx:id="table" layoutX="385.0" layoutY="42.0" prefHeight="560.0" prefWidth="336.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="43.0">
+        <columns>
+          <TableColumn fx:id="colSr" prefWidth="46.0" text="Sr.No" />
+          <TableColumn fx:id="colName" prefWidth="195.0" text="Customer Name" />
+            <TableColumn fx:id="colContact" prefWidth="112.0" text="Contact No" />
+            <TableColumn fx:id="colmobile" prefWidth="113.0" text="Alternate Contact" />
+            <TableColumn fx:id="colAddress" prefWidth="159.0" text="Address" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

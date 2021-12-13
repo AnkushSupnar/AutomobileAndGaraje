@@ -1,5 +1,7 @@
 package com.ankush.logging;
 
+import org.springframework.stereotype.Component;
+
 import java.io.PrintWriter;
 import java.io.Writer;
 

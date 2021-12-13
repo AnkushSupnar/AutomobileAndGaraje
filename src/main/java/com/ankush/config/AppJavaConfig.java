@@ -23,7 +23,7 @@ public class AppJavaConfig {
      * @return ExceptionWriter contains logging utility methods
      */
     @Bean
-    @Scope("prototype")
+    @Scope ("prototype")
     public ExceptionWriter exceptionWriter() {
         return new ExceptionWriter(new StringWriter());
     }

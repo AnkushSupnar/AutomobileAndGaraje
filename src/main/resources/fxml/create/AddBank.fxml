@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainPane" prefHeight="669.0" prefWidth="1236.0" stylesheets="@../css/addcustomer.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.AddBankController">
+   <children>
+      <StackPane prefHeight="42.0" prefWidth="731.0" style="-fx-background-color: #2262C6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Bank Account">
+               <font>
+                  <Font name="Georgia" size="16.0" />
+               </font>
+            </Text>
+         </children>
+      </StackPane>
+      <VBox prefHeight="570.0" prefWidth="363.0" styleClass="box" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <StackPane>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <FontAwesomeIcon glyphName="BANK" size="7em" />
+               </children>
+            </StackPane>
+            <Label text="Bank Name">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtBankName" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="10.0" text="Account No">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtAccountNo" layoutX="10.0" layoutY="27.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="52.0" text="IFSC">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtIFSC" layoutX="10.0" layoutY="69.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="94.0" text="Branch">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtBranch" layoutX="10.0" layoutY="111.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="136.0" text="Woner Name">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtWoner" layoutX="10.0" layoutY="153.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="178.0" text="Current Balance">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtBalance" layoutX="10.0" layoutY="195.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <HBox spacing="10.0">
+               <children>
+                  <Button fx:id="btnSave" mnemonicParsing="false" stylesheets="@../css/button.css" text="SAVE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SAVE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" stylesheets="@../css/button.css" text="UPDATE">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="EDIT" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnClear" mnemonicParsing="false" stylesheets="@../css/button.css" text="CLEAR">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="RECYCLE" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnHome" mnemonicParsing="false" stylesheets="@../css/button.css" text="HOME">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="HOME" />
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <TableView fx:id="table" layoutX="387.0" layoutY="55.0" prefHeight="569.0" prefWidth="556.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="387.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+         <columns>
+            <TableColumn fx:id="colSrNo" prefWidth="46.0" text="Sr.No" />
+            <TableColumn fx:id="colBankName" prefWidth="195.0" text="Bank Name" />
+            <TableColumn fx:id="colAccountNo" prefWidth="112.0" text="Account No" />
+            <TableColumn fx:id="colIFSC" prefWidth="113.0" text="IFSC" />
+            <TableColumn fx:id="colBranch" prefWidth="110.0" text="Branch" />
+            <TableColumn fx:id="colBalance" prefWidth="110.0" text="Balance" />
+            <TableColumn fx:id="colWoner" prefWidth="150.0" text="Woner Name" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

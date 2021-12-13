@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainPane" prefHeight="531.0" prefWidth="906.0" stylesheets="@../css/menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.CreateMenuController">
+   <children>
+      <VBox layoutX="40.0" layoutY="26.0" prefHeight="200.0" prefWidth="224.0" styleClass="box">
+         <children>
+            <HBox prefHeight="60.0" prefWidth="212.0" styleClass="menutitle">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="USER" size="5em">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menuitem" text="CUSTOMER">
+                     <HBox.margin>
+                        <Insets left="10.0" top="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="menuAddCustomer" layoutX="11.0" layoutY="11.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="USER_PLUS" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="ADD CUSTOMER">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox fx:id="menuEditCustomer" layoutX="11.0" layoutY="78.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="LIST" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="EDIT CUSTOMER">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="menuViewCustomet" layoutX="11.0" layoutY="116.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="USER_PLUS" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="VIEW CUSTOMER">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+         </children></VBox>
+      <VBox layoutX="316.0" layoutY="32.0" prefHeight="200.0" prefWidth="224.0" styleClass="box">
+         <children>
+            <HBox prefHeight="60.0" prefWidth="212.0" styleClass="menutitle">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="BANK" size="4.5em">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menuitem" text="BANK">
+                     <HBox.margin>
+                        <Insets left="10.0" top="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="menuAddBank" layoutX="11.0" layoutY="11.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="BANK" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="ADD BANK">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox fx:id="menuEditBank" layoutX="11.0" layoutY="78.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="LIST" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="EDIT BANK">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="menuViewBank" layoutX="11.0" layoutY="116.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="BANK" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="VIEW BANK">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="586.0" layoutY="32.0" prefHeight="200.0" prefWidth="224.0" styleClass="box">
+         <children>
+            <HBox prefHeight="60.0" prefWidth="212.0" styleClass="menutitle">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="TRUCK" size="4.5em">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menuitem" text="PURCHASE PARTY">
+                     <HBox.margin>
+                        <Insets left="10.0" top="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="menuAddParty" layoutX="11.0" layoutY="11.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="USER_PLUS" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="ADD PURCHASE PARTY">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox fx:id="menuEditParty" layoutX="11.0" layoutY="78.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="LIST" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="EDIT PURCHASE PARTY">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="menuViewParty" layoutX="11.0" layoutY="116.0" prefHeight="34.0" prefWidth="222.0" styleClass="menu">
+               <children>
+                  <FontAwesomeIcon fill="#4285f4" glyphName="USER_PLUS" size="2em">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menu" text="VIEW PURCHASE PARTY">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

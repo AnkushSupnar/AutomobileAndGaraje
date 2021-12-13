@@ -1,0 +1,28 @@
+.root{
+    /*-fx-background-color:#77ACF1;*/
+    -fx-background-color:linear-gradient(to bottom, #2262C6,#E839F6);
+}
+.box{
+    -fx-background-color:white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+.circle{
+    -fx-background-color:#5cb85c;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+}
+.buttonLogin{
+    -fx-background-color:#5cb85c;
+}
+.buttonCancel{
+    -fx-background-color:#d9534f;
+}
+.button{
+    -fx-text-fill:white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+.button .glyph-icon{
+    -fx-fill:white;
+}
