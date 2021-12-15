@@ -5,7 +5,6 @@
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,12 +13,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane" prefHeight="484.0" prefWidth="600.0" style="-fx-background-color:#0e188d; -fx-border-color: white;" stylesheets="@../css/textfield.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.home.LoginController">
+<AnchorPane fx:id="mainPane" prefHeight="554.0" prefWidth="600.0"
+            style="-fx-background-color:#0e188d;
+            -fx-border-color: white;"
+            stylesheets="@../css/textfield.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ankush.controller.create.CreateUserController">
    <children>
       <StackPane layoutX="167.0" layoutY="14.0" prefHeight="156.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <FontAwesomeIcon fill="#eeebeb" glyphName="GEAR" size="10em" StackPane.alignment="TOP_CENTER" />
-            <Text fill="#c6c1c1" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN" StackPane.alignment="BOTTOM_CENTER">
+            <FontAwesomeIcon fill="#eeebeb" glyphName="USER_PLUS" size="10em" StackPane.alignment="TOP_CENTER" />
+            <Text fill="#c6c1c1" strokeType="OUTSIDE" strokeWidth="0.0" text="ADD USER" StackPane.alignment="BOTTOM_CENTER">
                <font>
                   <Font name="Arial Bold" size="30.0" />
                </font>
@@ -72,17 +77,39 @@
                   </MFXPasswordField>
                </children>
             </HBox>
+            <Label layoutX="40.0" layoutY="100.0" text="Re-Enter Password" textFill="#c6c1c1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="30.0" top="30.0" />
+               </VBox.margin>
+            </Label>
+            <HBox layoutX="10.0" layoutY="125.0" spacing="10.0">
+               <children>
+                  <FontAwesomeIcon fill="#c6c1c1" glyphName="LOCK" size="2em">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIcon>
+                  <MFXPasswordField fx:id="txtRepassword" prefHeight="35.0" prefWidth="230.0" promptText="Enter Password" styleClass="textfeild" stylesheets="@../css/textfield.css">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </MFXPasswordField>
+               </children>
+            </HBox>
             <HBox spacing="50.0">
                <children>
-                  <MFXButton fx:id="btnLogin" buttonType="RAISED" depthLevel="LEVEL5" rippleColor="#0e188d" style="-fx-background-color: #3C58FA;" text="LOGIN" textFill="#f8f6f6">
+                  <MFXButton fx:id="btnCreate" buttonType="RAISED" depthLevel="LEVEL5" rippleColor="#0e188d" style="-fx-background-color: #3C58FA;" text="ADD" textFill="#f8f6f6">
                      <graphic>
-                        <FontAwesomeIcon fill="#fcf9f9" glyphName="KEY" size="1.5em" />
+                        <FontAwesomeIcon fill="#fcf9f9" glyphName="USER_PLUS" size="1.5em" />
                      </graphic>
                      <font>
                         <Font name="Georgia" size="16.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="btnPassword" buttonType="RAISED" depthLevel="LEVEL5" rippleColor="#0e188d" style="-fx-background-color: #f40808;" text="CANCEL" textFill="#f8f6f6">
+                  <MFXButton fx:id="btnCancel" buttonType="RAISED" depthLevel="LEVEL5" rippleColor="#0e188d" style="-fx-background-color: #f40808;" text="CANCEL" textFill="#f8f6f6">
                      <graphic>
                         <FontAwesomeIcon fill="#fcf9f9" glyphName="CLOSE" size="1.5em" />
                      </graphic>
@@ -97,6 +124,5 @@
             </HBox>
          </children>
       </VBox>
-      <Hyperlink fx:id="linkCreateUser" layoutX="186.0" layoutY="430.0" text="Not User? Click here to Create New" textFill="WHITE" visible="false" />
    </children>
 </AnchorPane>

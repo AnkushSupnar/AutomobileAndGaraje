@@ -1,7 +1,7 @@
 package com.ankush.controller.create;
 
 import com.ankush.config.SpringFXMLLoader;
-import com.ankush.view.StageManager;
+import com.ankush.config.StageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 @Component
 public class CreateMenuController implements Initializable {
     @Autowired @Lazy
-    StageManager stageManager;
+    private StageManager stageManager;
     @Autowired
     SpringFXMLLoader loader;
     @FXML private AnchorPane mainPane;

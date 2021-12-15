@@ -38,9 +38,10 @@ public class Main extends Application {
 		springContext.close();
 	}
 	protected void displayInitialScene() {
-		stageManager.switchScene(FxmlView.LOGIN);
+
+		//stageManager.switchScene(FxmlView.LOGIN);
 		//stageManager.switchScene(FxmlView.BILLING);
-		//stageManager.switchScene(FxmlView.HOME);
+		stageManager.switchScene(FxmlView.HOME);
 
 	}
 	private ConfigurableApplicationContext bootstrapSpringApplicationContext() {

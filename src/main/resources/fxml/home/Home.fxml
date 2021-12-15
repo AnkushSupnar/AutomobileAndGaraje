@@ -115,7 +115,7 @@
                         </HBox>
                         <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
                             <children>
-                                <HBox prefHeight="43.0" prefWidth="200.0" styleClass="menu">
+                                <HBox fx:id="menuSettings" prefHeight="43.0" prefWidth="200.0" styleClass="menu">
                                     <children>
                                         <FontAwesomeIcon fill="#485460" glyphName="COG" size="1.5em" HBox.hgrow="ALWAYS" />
                                         <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksan;" styleClass="text-menu" text="SETTINGS">
@@ -128,7 +128,7 @@
                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </padding>
                                 </HBox>
-                                <HBox layoutX="10.0" layoutY="10.0" prefHeight="43.0" prefWidth="200.0" styleClass="menu">
+                                <HBox fx:id="menuSupport" layoutX="10.0" layoutY="10.0" prefHeight="43.0" prefWidth="200.0" styleClass="menu">
                                     <children>
                                         <FontAwesomeIcon fill="#485460" glyphName="PHONE" size="1.5em" HBox.hgrow="ALWAYS" />
                                         <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksan;" styleClass="text-menu" text="SUPPORT">
@@ -158,7 +158,7 @@
                         </VBox>
                     </children>
                 </VBox>
-            <FontAwesomeIcon fill="#2262c6" glyphName="GEAR" layoutX="36.0" layoutY="104.85713958740234" size="10em" wrappingWidth="109.85713958740234" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="1.0" />
+            <FontAwesomeIcon fill="#2262c6" glyphName="GEAR" layoutX="34.0" layoutY="123.0" size="12em" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="32.57142639160156" AnchorPane.topAnchor="-0.4285736083984375" />
             </children>
         </AnchorPane>
     </left>

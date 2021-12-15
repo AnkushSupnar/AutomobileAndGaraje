@@ -14,6 +14,18 @@ public enum FxmlView {
             return "/fxml/home/Login.fxml";
         }
     },
+    ADDUSER {
+        @Override
+        public String getTitle() {
+
+            //return getStringFromResourceBundle("login.title");
+            return "Add New User";
+        }
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/create/CreateUser.fxml";
+        }
+    },
     NOTIFICATION {
         @Override
         public String getTitle() {
