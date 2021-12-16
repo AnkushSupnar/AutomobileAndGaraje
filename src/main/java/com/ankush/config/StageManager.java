@@ -1,5 +1,7 @@
 package com.ankush.config;
 
+import com.ankush.common.CommonData;
+import com.ankush.data.service.PurchasePartyService;
 import com.ankush.view.FxmlView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,6 +15,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -20,7 +23,8 @@ import java.util.Objects;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class StageManager {
-
+    @Autowired
+    private PurchasePartyService partyService;
     private static final Logger LOG = getLogger(StageManager.class);
     private final Stage primaryStage;
     private final SpringFXMLLoader springFXMLLoader;
@@ -119,7 +123,7 @@ public class StageManager {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent e) {
-                    System.out.println("Closing");
+                    CommonData.setPartyNames(partyService.getAllPartyNames());
                 }
             });
         } catch (Exception exception) {

@@ -1,6 +1,8 @@
 package com.ankush.controller.transaction;
 
 import com.ankush.Main;
+import com.ankush.common.CommonData;
+import com.ankush.config.SpringFXMLLoader;
 import com.ankush.config.StageManager;
 import com.ankush.data.entities.PurchaseInvoice;
 import com.ankush.data.entities.PurchaseParty;
@@ -33,6 +35,8 @@ import java.util.ResourceBundle;
 public class PurchaseInvoiceController implements Initializable {
     @Autowired @Lazy
     private StageManager stageManager;
+    @Autowired
+    private SpringFXMLLoader fxmlLoader;
     @FXML private Button btnAdd,btnAddNew,btnClear2,btnHome,btnPrint,btnRemove,btnSave,btnSearchParty,btnUpdate,btnUpdate2,btnView;
 
     @FXML private ComboBox<String> cmBank;
@@ -64,12 +68,12 @@ public class PurchaseInvoiceController implements Initializable {
 
     @Autowired
     private PurchasePartyService partyService;
-    private SuggestionProvider<String>partyNameProvider;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date.setValue(LocalDate.now());
-        partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
-        TextFields.bindAutoCompletion(txtPartyName,partyNameProvider);
+        CommonData.setPartyNames(partyService.getAllPartyNames());
+        TextFields.bindAutoCompletion(txtPartyName,CommonData.getPartyNameProvider());
         btnSearchParty.setOnAction(e->searchParty());
         btnAddNew.setOnAction(e->addNewParty(e));
     }

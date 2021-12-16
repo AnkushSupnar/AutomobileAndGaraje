@@ -13,15 +13,17 @@ import java.util.ResourceBundle;
 public class SpringFXMLLoader {
     private final ResourceBundle resourceBundle;
     private final ApplicationContext context;
-
+    FXMLLoader loader;
     @Autowired
     public SpringFXMLLoader(ApplicationContext context, ResourceBundle resourceBundle) {
         this.resourceBundle = resourceBundle;
         this.context = context;
+        FXMLLoader loader = new FXMLLoader();
     }
 
     public Parent load(String fxmlPath) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
+      //FXMLLoader
+              loader = new FXMLLoader();
         loader.setControllerFactory(context::getBean); //Spring now FXML Controller Factory
         loader.setResources(resourceBundle);
         loader.setLocation(getClass().getResource(fxmlPath));
