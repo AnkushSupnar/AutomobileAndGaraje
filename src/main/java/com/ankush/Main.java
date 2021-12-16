@@ -41,7 +41,7 @@ public class Main extends Application {
 
 		//stageManager.switchScene(FxmlView.LOGIN);
 		//stageManager.switchScene(FxmlView.BILLING);
-		stageManager.switchScene(FxmlView.HOME);
+		stageManager.switchScene(FxmlView.PURCHASEINVOICE);
 
 	}
 	private ConfigurableApplicationContext bootstrapSpringApplicationContext() {

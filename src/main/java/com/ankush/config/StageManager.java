@@ -2,11 +2,16 @@ package com.ankush.config;
 
 import com.ankush.view.FxmlView;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -97,5 +102,30 @@ public class StageManager {
     public Parent getParent()
     {
         return viewRootNodeHierarchy;
+    }
+    public void showAddNewParty(ActionEvent e,String filePath)
+    {
+        Stage stage = new Stage();
+        Parent rootNode = null;
+        try {
+            rootNode = springFXMLLoader.load(filePath);
+            Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
+            stage.setScene(new Scene(rootNode));
+            stage.setTitle("My modal window");
+            stage.setTitle("My modal window");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node) e.getSource()).getScene().getWindow());
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    System.out.println("Closing");
+                }
+            });
+        } catch (Exception exception) {
+            logAndExit("Unable to load FXML view" + filePath, exception);
+        }
+
+
     }
 }

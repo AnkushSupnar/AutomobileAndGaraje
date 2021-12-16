@@ -26,6 +26,16 @@ public enum FxmlView {
             return "/fxml/create/CreateUser.fxml";
         }
     },
+    PURCHASEINVOICE {
+        @Override
+        public String getTitle() {
+            return "Purchase Invoice";
+        }
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/transaction/PurchaseInvoice.fxml";
+        }
+    },
     NOTIFICATION {
         @Override
         public String getTitle() {
