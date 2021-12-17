@@ -1,5 +1,6 @@
 package com.ankush.controller.create;
 
+import com.ankush.common.CommonData;
 import com.ankush.data.entities.PurchaseParty;
 import com.ankush.data.service.PurchasePartyService;
 import com.ankush.view.AlertNotification;
@@ -104,6 +105,7 @@ public class PurchasePartyController implements Initializable {
             addInList(party);
             clear();
         }
+
     }
     private boolean validate() {
         if(txtName.getText().isEmpty())

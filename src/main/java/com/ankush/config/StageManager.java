@@ -107,29 +107,9 @@ public class StageManager {
     {
         return viewRootNodeHierarchy;
     }
-    public void showAddNewParty(ActionEvent e,String filePath)
+
+    public SpringFXMLLoader getFxmlLoader()
     {
-        Stage stage = new Stage();
-        Parent rootNode = null;
-        try {
-            rootNode = springFXMLLoader.load(filePath);
-            Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
-            stage.setScene(new Scene(rootNode));
-            stage.setTitle("My modal window");
-            stage.setTitle("My modal window");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(((Node) e.getSource()).getScene().getWindow());
-            stage.show();
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent e) {
-                    CommonData.setPartyNames(partyService.getAllPartyNames());
-                }
-            });
-        } catch (Exception exception) {
-            logAndExit("Unable to load FXML view" + filePath, exception);
-        }
-
-
+        return springFXMLLoader;
     }
 }

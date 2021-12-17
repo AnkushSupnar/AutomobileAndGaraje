@@ -4,11 +4,17 @@ import com.ankush.Main;
 import com.ankush.common.CommonData;
 import com.ankush.config.SpringFXMLLoader;
 import com.ankush.config.StageManager;
+import com.ankush.data.entities.ItemStock;
 import com.ankush.data.entities.PurchaseInvoice;
 import com.ankush.data.entities.PurchaseParty;
 import com.ankush.data.entities.PurchaseTransaction;
+import com.ankush.data.service.ItemService;
+import com.ankush.data.service.ItemStockService;
 import com.ankush.data.service.PurchasePartyService;
+import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -30,6 +37,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 @Component
 public class PurchaseInvoiceController implements Initializable {
@@ -68,17 +76,51 @@ public class PurchaseInvoiceController implements Initializable {
 
     @Autowired
     private PurchasePartyService partyService;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private ItemStockService stockService;
+    private  SuggestionProvider<String> partyNameProvider;
+    private  SuggestionProvider<String> itemNameProvider;
+    private ItemStock stock;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date.setValue(LocalDate.now());
-        CommonData.setPartyNames(partyService.getAllPartyNames());
-        TextFields.bindAutoCompletion(txtPartyName,CommonData.getPartyNameProvider());
+        stock=null;
+        partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
+        new AutoCompletionTextFieldBinding<>(txtPartyName,partyNameProvider);
+        itemNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
+        new AutoCompletionTextFieldBinding<>(txtPartName,itemNameProvider);
         btnSearchParty.setOnAction(e->searchParty());
         btnAddNew.setOnAction(e->addNewParty(e));
+        txtPartNo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtPartNo.setText(oldValue);
+                else{
+                    if(!txtPartNo.getText().isEmpty()) {
+                        stock = stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText()));
+                        System.out.println(stock);
+                        setStock(stock);
+                    }}}});
+        txtPartNo.setOnAction(e->{
+            if(!txtPartNo.getText().isEmpty())
+            {
+                setStock(stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())));
+                txtPartName.requestFocus();
+            }
+            txtPartName.requestFocus();
+        });
     }
 
-
+    private void setStock(ItemStock stock) {
+        if(null!=stock) {
+            txtPartName.setText(stock.getItem().getItemname());
+            txtPartRate.setText(String.valueOf(stock.getPurchaserate()));
+        }
+    }
     private void searchParty() {
         if(txtPartyName.getText().isEmpty()) {
             txtPartyName.requestFocus();
@@ -95,7 +137,28 @@ public class PurchaseInvoiceController implements Initializable {
         }
     }
     private void addNewParty(ActionEvent e) {
-        stageManager.showAddNewParty(e,"/fxml/create/PurchaseParty.fxml");
+       // stageManager.showAddNewParty(e,"/fxml/create/PurchaseParty.fxml");
+        Stage stage = new Stage();
+        Parent rootNode = null;
+        try {
+            rootNode = stageManager.getFxmlLoader().load("/fxml/create/PurchaseParty.fxml");
+            Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
+            stage.setScene(new Scene(rootNode));
+            stage.setTitle("My modal window");
+            stage.setTitle("My modal window");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node) e.getSource()).getScene().getWindow());
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    partyNameProvider.clearSuggestions();
+                    partyNameProvider.addPossibleSuggestions(partyService.getAllPartyNames());
+                }
+            });
+        } catch (Exception exception) {
+           // logAndExit("Unable to load FXML view" + filePath, exception);
+        }
 
 
     }
