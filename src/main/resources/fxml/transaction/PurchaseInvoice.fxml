@@ -175,22 +175,22 @@
          <children>
             <VBox layoutX="597.0">
                <children>
-                  <TextField fx:id="txtNetTotal" editable="false" maxWidth="100.0">
+                  <TextField fx:id="txtNetTotal" alignment="CENTER_RIGHT" editable="false" maxWidth="100.0" text="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtTransport" maxWidth="100.0">
+                  <TextField fx:id="txtTransport" alignment="CENTER_RIGHT" maxWidth="100.0" text="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtOther" maxWidth="100.0">
+                  <TextField fx:id="txtOther" alignment="CENTER_RIGHT" maxWidth="100.0" text="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtGrand" editable="false" maxWidth="100.0">
+                  <TextField fx:id="txtGrand" alignment="CENTER_RIGHT" editable="false" maxWidth="100.0" text="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>

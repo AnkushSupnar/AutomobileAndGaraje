@@ -11,10 +11,13 @@ import com.ankush.data.entities.PurchaseTransaction;
 import com.ankush.data.service.ItemService;
 import com.ankush.data.service.ItemStockService;
 import com.ankush.data.service.PurchasePartyService;
+import com.ankush.view.AlertNotification;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -74,16 +78,14 @@ public class PurchaseInvoiceController implements Initializable {
     @FXML private TextField txtPartySearch,txtQuantity,txtTransport;
     @FXML private TextArea txtPartyInfo;
 
-    @Autowired
-    private PurchasePartyService partyService;
-    @Autowired
-    private ItemService itemService;
-    @Autowired
-    private ItemStockService stockService;
+    @Autowired private PurchasePartyService partyService;
+    @Autowired private ItemService itemService;
+    @Autowired private ItemStockService stockService;
+    @Autowired private AlertNotification alert;
     private  SuggestionProvider<String> partyNameProvider;
     private  SuggestionProvider<String> itemNameProvider;
     private ItemStock stock;
-
+    private ObservableList<PurchaseTransaction>trList = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date.setValue(LocalDate.now());
@@ -92,6 +94,14 @@ public class PurchaseInvoiceController implements Initializable {
         new AutoCompletionTextFieldBinding<>(txtPartyName,partyNameProvider);
         itemNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
         new AutoCompletionTextFieldBinding<>(txtPartName,itemNameProvider);
+
+        colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colPartNo.setCellValueFactory(new PropertyValueFactory<>("partno"));
+        colPartName.setCellValueFactory(new PropertyValueFactory<>("partname"));
+        colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        tableTr.setItems(trList);
         btnSearchParty.setOnAction(e->searchParty());
         btnAddNew.setOnAction(e->addNewParty(e));
         txtPartNo.textProperty().addListener(new ChangeListener<String>() {
@@ -113,6 +123,134 @@ public class PurchaseInvoiceController implements Initializable {
             }
             txtPartName.requestFocus();
         });
+        txtPartName.setOnAction(e->{
+            if(txtPartNo.getText().isEmpty())
+            {
+                setStock(stockService.findByItem_Itemname(txtPartName.getText()));
+            }
+            else{
+                setStock(stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())));
+            }
+        });
+        txtPartRate.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtPartRate.setText(oldValue);
+            }});
+        txtPartRate.setOnAction(e->{
+            if(!txtQuantity.getText().isEmpty() && !txtPartRate.getText().isEmpty())
+            {
+                txtAmount.setText(
+                        String.valueOf(Float.parseFloat(txtQuantity.getText())*Float.parseFloat(txtPartRate.getText())));
+            }
+            txtQuantity.requestFocus();
+        });
+        txtQuantity.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtQuantity.setText(oldValue);
+            }});
+        txtQuantity.setOnAction(e->{
+            if(!txtQuantity.getText().isEmpty() && !txtPartRate.getText().isEmpty())
+            {
+                txtAmount.setText(
+                        String.valueOf(Float.parseFloat(txtQuantity.getText())*Float.parseFloat(txtPartRate.getText()))
+                );
+                txtAmount.requestFocus();
+            }
+        });
+        txtAmount.setOnAction(e->btnAdd.requestFocus());
+        btnAdd.setOnAction(e->add());
+    }
+
+    private void add() {
+        if(!validate())return;
+        txtAmount.setText(
+                String.valueOf(Float.parseFloat(txtQuantity.getText())*Float.parseFloat(txtPartRate.getText()))
+        );
+        PurchaseTransaction tr = PurchaseTransaction.builder()
+                .amount(Float.parseFloat(txtAmount.getText()))
+                .partno(Long.parseLong(txtPartNo.getText()))
+                .partname(txtPartName.getText())
+                .quantity(Float.parseFloat(txtQuantity.getText()))
+                .rate(Float.parseFloat(txtPartRate.getText()))
+                .build();
+        addInTrList(tr);
+    }
+
+    private void addInTrList(PurchaseTransaction tr) {
+        try {
+            int index = -1;
+            for (PurchaseTransaction t : trList) {
+                if (t.getPartno().longValue() == tr.getPartno().longValue())
+                    /*&&
+                    t.getPartname().equalsIgnoreCase(tr.getPartname()) &&
+                    t.getRate()==tr.getRate())*/ {
+                    index = trList.indexOf(t);
+                    System.out.println("in for "+index);
+                    break;
+                }
+            }
+            System.out.println("index=" + index);
+            if (index == -1) {
+                System.out.println("Not Found");
+                tr.setId((long) (1));
+                trList.add(tr);
+            } else {
+                System.out.println("Found at " + index);
+                tr.setId(trList.get(index).getId());
+                trList.add(index, tr);
+                tableTr.refresh();
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        txtNetTotal.setText(String.valueOf(Float.parseFloat(txtNetTotal.getText())+tr.getAmount()));
+    }
+
+    private boolean validate() {
+        if(txtPartName.getText().isEmpty())
+        {
+            alert.showError("Enter Part Name");
+            txtPartName.requestFocus();
+            return false;
+        }
+        if(txtPartNo.getText().isEmpty())
+        {
+            alert.showError("Enter Part No");
+            txtPartNo.requestFocus();
+            return false;
+        }
+        if(txtPartRate.getText().isEmpty())
+        {
+            alert.showError("Enter Part Rate");
+            txtPartRate.requestFocus();
+            return false;
+        }
+        if(txtQuantity.getText().isEmpty())
+        {
+            alert.showError("Enter Quantity");
+            txtQuantity.requestFocus();
+            return false;
+        }
+        if(null!=stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())) &&
+                !stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())).getItem().getItemname().equals(txtPartName.getText()))
+        {
+            alert.showError("This part no is available to another Part");
+            txtPartNo.requestFocus();
+            return false;
+        }
+
+        if(txtAmount.getText().equals(""+0.0f))
+        {
+            alert.showError("Amount Must be greater than 0");
+            return false;
+        }
+
+        return true;
     }
 
     private void setStock(ItemStock stock) {
