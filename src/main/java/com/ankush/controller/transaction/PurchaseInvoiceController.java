@@ -8,6 +8,7 @@ import com.ankush.data.entities.ItemStock;
 import com.ankush.data.entities.PurchaseInvoice;
 import com.ankush.data.entities.PurchaseParty;
 import com.ankush.data.entities.PurchaseTransaction;
+import com.ankush.data.service.BankService;
 import com.ankush.data.service.ItemService;
 import com.ankush.data.service.ItemStockService;
 import com.ankush.data.service.PurchasePartyService;
@@ -51,8 +52,8 @@ public class PurchaseInvoiceController implements Initializable {
     private SpringFXMLLoader fxmlLoader;
     @FXML private Button btnAdd,btnAddNew,btnClear2,btnClear,btnHome,btnPrint,btnRemove,btnSave,btnSearchParty,btnUpdate,btnUpdate2,btnView;
 
-    @FXML private ComboBox<String> cmBank;
-    @FXML private TextField cmbPaid;
+    @FXML private ComboBox<String> cmbBank;
+    @FXML private TextField txtPaid;
     @FXML private TableView<PurchaseTransaction> tableTr;
     @FXML private TableColumn<PurchaseTransaction,Long> colSrNo;
     @FXML private TableColumn<PurchaseTransaction,String> colPartNo;
@@ -81,6 +82,7 @@ public class PurchaseInvoiceController implements Initializable {
     @Autowired private ItemService itemService;
     @Autowired private ItemStockService stockService;
     @Autowired private AlertNotification alert;
+    @Autowired private BankService bankService;
 
     private  SuggestionProvider<String> partyNameProvider;
     private  SuggestionProvider<String> itemNameProvider;
@@ -91,6 +93,7 @@ public class PurchaseInvoiceController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date.setValue(LocalDate.now());
         stock=null;
+        cmbBank.getItems().addAll(bankService.getAllBankNames());
         partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
         new AutoCompletionTextFieldBinding<>(txtPartyName,partyNameProvider);
         itemNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
@@ -191,9 +194,10 @@ public class PurchaseInvoiceController implements Initializable {
         btnRemove.setOnAction(e->remove());
         btnClear.setOnAction(e->clear());
 
+        btnSave.setOnAction(e->save());
+
     }
-    private void clear()
-    {
+    private void clear()  {
         txtPartNo.setText("");
         txtPartName.setText("");
         txtPartRate.setText("");
@@ -209,7 +213,6 @@ public class PurchaseInvoiceController implements Initializable {
         trList.remove(tableTr.getSelectionModel().getSelectedIndex());
         tableTr.refresh();
     }
-
     private void update() {
         if(tableTr.getSelectionModel().getSelectedItem()==null) return;
         PurchaseTransaction tr =tableTr.getSelectionModel().getSelectedItem();
@@ -219,7 +222,6 @@ public class PurchaseInvoiceController implements Initializable {
         txtQuantity.setText(String.valueOf(tr.getQuantity()));
         txtAmount.setText(String.valueOf(tr.getAmount()));
     }
-
     private void add() {
         if(!validate())return;
         txtAmount.setText(
@@ -353,8 +355,7 @@ public class PurchaseInvoiceController implements Initializable {
 
 
     }
-    private void calculateGrandTotal()
-    {
+    private void calculateGrandTotal(){
         if(txtTransport.getText().isEmpty()) txtTransport.setText(""+0.0f);
         if(txtOther.getText().isEmpty())txtOther.setText(""+0.0f);
         txtGrand.setText(
@@ -362,5 +363,36 @@ public class PurchaseInvoiceController implements Initializable {
                         Float.parseFloat(txtTransport.getText())+
                         Float.parseFloat(txtOther.getText()))
         );
+    }
+
+    private void save() {
+        if(!validateBill())return;
+    }
+
+    private boolean validateBill() {
+        if(txtPartyInfo.getText().isEmpty())
+        {
+            alert.showError("Enter Party");
+            txtPartyName.requestFocus();
+            return false;
+        }
+        if(trList.size()==0)
+        {
+            alert.showError("No Data To Save ");
+            return false;
+        }
+        if(txtPaid.getText().isEmpty())
+        {
+            alert.showError("Enter Paid Amount");
+            txtPaid.requestFocus();
+            return false;
+        }
+        if(cmbBank.getValue()==null)
+        {
+            alert.showError("Select Bank Paid From");
+            cmbBank.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

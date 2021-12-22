@@ -218,9 +218,9 @@
                </children>
             </VBox>
             <Label layoutX="11.0" layoutY="18.0" text="Bank Name" />
-            <ComboBox fx:id="cmBank" layoutX="90.0" layoutY="20.0" prefHeight="30.0" prefWidth="222.0" promptText="Select Bank" />
+            <ComboBox fx:id="cmbBank" layoutX="90.0" layoutY="20.0" prefHeight="30.0" prefWidth="222.0" promptText="Select Bank" />
             <Label layoutX="14.0" layoutY="61.0" text="Paid Amount" />
-            <TextField fx:id="cmbPaid" layoutX="90.0" layoutY="55.0" prefHeight="30.0" prefWidth="222.0">
+            <TextField fx:id="txtPaid" layoutX="90.0" layoutY="55.0" prefHeight="30.0" prefWidth="222.0">
                <font>
                   <Font size="14.0" />
                </font>
