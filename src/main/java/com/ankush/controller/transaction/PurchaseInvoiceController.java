@@ -49,13 +49,13 @@ public class PurchaseInvoiceController implements Initializable {
     private StageManager stageManager;
     @Autowired
     private SpringFXMLLoader fxmlLoader;
-    @FXML private Button btnAdd,btnAddNew,btnClear2,btnHome,btnPrint,btnRemove,btnSave,btnSearchParty,btnUpdate,btnUpdate2,btnView;
+    @FXML private Button btnAdd,btnAddNew,btnClear2,btnClear,btnHome,btnPrint,btnRemove,btnSave,btnSearchParty,btnUpdate,btnUpdate2,btnView;
 
     @FXML private ComboBox<String> cmBank;
     @FXML private TextField cmbPaid;
     @FXML private TableView<PurchaseTransaction> tableTr;
     @FXML private TableColumn<PurchaseTransaction,Long> colSrNo;
-    @FXML private TableColumn<PurchaseTransaction,Long> colPartNo;
+    @FXML private TableColumn<PurchaseTransaction,String> colPartNo;
     @FXML private TableColumn<PurchaseTransaction,String> colPartName;
     @FXML private TableColumn<PurchaseTransaction,Float> colRate;
     @FXML private TableColumn<PurchaseTransaction,Float> colQty;
@@ -77,13 +77,14 @@ public class PurchaseInvoiceController implements Initializable {
     @FXML private TextField txtNetTotal,txtOther,txtPartName,txtPartNo,txtPartRate,txtPartyName;
     @FXML private TextField txtPartySearch,txtQuantity,txtTransport;
     @FXML private TextArea txtPartyInfo;
-
     @Autowired private PurchasePartyService partyService;
     @Autowired private ItemService itemService;
     @Autowired private ItemStockService stockService;
     @Autowired private AlertNotification alert;
+
     private  SuggestionProvider<String> partyNameProvider;
     private  SuggestionProvider<String> itemNameProvider;
+    private  SuggestionProvider<String> partnoProvider;
     private ItemStock stock;
     private ObservableList<PurchaseTransaction>trList = FXCollections.observableArrayList();
     @Override
@@ -94,7 +95,8 @@ public class PurchaseInvoiceController implements Initializable {
         new AutoCompletionTextFieldBinding<>(txtPartyName,partyNameProvider);
         itemNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
         new AutoCompletionTextFieldBinding<>(txtPartName,itemNameProvider);
-
+        partnoProvider = SuggestionProvider.create(itemService.getAllPartNo());
+        new AutoCompletionTextFieldBinding<>(txtPartNo,partnoProvider);
         colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPartNo.setCellValueFactory(new PropertyValueFactory<>("partno"));
         colPartName.setCellValueFactory(new PropertyValueFactory<>("partname"));
@@ -104,22 +106,16 @@ public class PurchaseInvoiceController implements Initializable {
         tableTr.setItems(trList);
         btnSearchParty.setOnAction(e->searchParty());
         btnAddNew.setOnAction(e->addNewParty(e));
-        txtPartNo.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
-                    txtPartNo.setText(oldValue);
-                else{
-                    if(!txtPartNo.getText().isEmpty()) {
-                        stock = stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText()));
-                        System.out.println(stock);
-                        setStock(stock);
-                    }}}});
+
         txtPartNo.setOnAction(e->{
             if(!txtPartNo.getText().isEmpty())
             {
-                setStock(stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())));
-                txtPartName.requestFocus();
+                //partyNameProvider.clearSuggestions();
+                partyNameProvider.addPossibleSuggestions(itemService.findByPartnoLike(txtPartNo.getText()));
+            }
+            else
+            {
+
             }
             txtPartName.requestFocus();
         });
@@ -129,7 +125,7 @@ public class PurchaseInvoiceController implements Initializable {
                 setStock(stockService.findByItem_Itemname(txtPartName.getText()));
             }
             else{
-                setStock(stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())));
+                setStock(stockService.findByItem_Partno(txtPartNo.getText()));
             }
         });
         txtPartRate.textProperty().addListener(new ChangeListener<String>() {
@@ -162,7 +158,66 @@ public class PurchaseInvoiceController implements Initializable {
             }
         });
         txtAmount.setOnAction(e->btnAdd.requestFocus());
+        txtTransport.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtTransport.setText(oldValue);
+                else{
+                    if(!txtTransport.getText().isEmpty()) calculateGrandTotal();
+                }
+            }});
+        txtTransport.setOnAction(e->{
+            if(txtTransport.getText().isEmpty())txtTransport.setText(""+0.0f);
+            else
+                calculateGrandTotal();
+        });
+        txtOther.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtOther.setText(oldValue);
+                else{
+                    if(!txtOther.getText().isEmpty()) calculateGrandTotal();
+                }
+            }});
+        txtOther.setOnAction(e->{
+            if(txtOther.getText().isEmpty())txtOther.setText(""+0.0f);
+            else
+                calculateGrandTotal();
+        });
         btnAdd.setOnAction(e->add());
+        btnUpdate.setOnAction(e->update());
+        btnRemove.setOnAction(e->remove());
+        btnClear.setOnAction(e->clear());
+
+    }
+    private void clear()
+    {
+        txtPartNo.setText("");
+        txtPartName.setText("");
+        txtPartRate.setText("");
+        txtQuantity.setText("");
+        txtAmount.setText(""+0.0f);
+    }
+    private void remove() {
+        txtNetTotal.setText(
+                String.valueOf(Float.parseFloat(txtNetTotal.getText())-
+                        tableTr.getSelectionModel().getSelectedItem().getAmount())
+        );
+        calculateGrandTotal();
+        trList.remove(tableTr.getSelectionModel().getSelectedIndex());
+        tableTr.refresh();
+    }
+
+    private void update() {
+        if(tableTr.getSelectionModel().getSelectedItem()==null) return;
+        PurchaseTransaction tr =tableTr.getSelectionModel().getSelectedItem();
+        txtPartNo.setText(tr.getPartno());
+        txtPartName.setText(tr.getPartname());
+        txtPartRate.setText(String.valueOf(tr.getRate()));
+        txtQuantity.setText(String.valueOf(tr.getQuantity()));
+        txtAmount.setText(String.valueOf(tr.getAmount()));
     }
 
     private void add() {
@@ -172,45 +227,44 @@ public class PurchaseInvoiceController implements Initializable {
         );
         PurchaseTransaction tr = PurchaseTransaction.builder()
                 .amount(Float.parseFloat(txtAmount.getText()))
-                .partno(Long.parseLong(txtPartNo.getText()))
+                .partno(txtPartNo.getText())
                 .partname(txtPartName.getText())
                 .quantity(Float.parseFloat(txtQuantity.getText()))
                 .rate(Float.parseFloat(txtPartRate.getText()))
                 .build();
         addInTrList(tr);
+        clear();
     }
-
     private void addInTrList(PurchaseTransaction tr) {
         try {
             int index = -1;
-            for (PurchaseTransaction t : trList) {
-                if (t.getPartno().longValue() == tr.getPartno().longValue())
-                    /*&&
-                    t.getPartname().equalsIgnoreCase(tr.getPartname()) &&
-                    t.getRate()==tr.getRate())*/ {
-                    index = trList.indexOf(t);
-                    System.out.println("in for "+index);
-                    break;
-                }
-            }
-            System.out.println("index=" + index);
-            if (index == -1) {
-                System.out.println("Not Found");
-                tr.setId((long) (1));
-                trList.add(tr);
-            } else {
-                System.out.println("Found at " + index);
-                tr.setId(trList.get(index).getId());
-                trList.add(index, tr);
-                tableTr.refresh();
-            }
+           for(PurchaseTransaction pt:trList)
+           {
+               if(pt.getPartno().equalsIgnoreCase(tr.getPartno())&&
+               pt.getPartname().equalsIgnoreCase(tr.getPartname()) &&
+               pt.getRate().longValue()==tr.getRate().longValue())
+               {
+                   System.out.println("Found");
+                   index=trList.indexOf(pt);
+                   break;
+               }
+           }
+           if(index==-1){
+               tr.setId((long) (trList.size()+1));
+               trList.add(tr);
+           }
+           else{
+               trList.get(index).setQuantity(trList.get(index).getQuantity()+tr.getQuantity());
+               trList.get(index).setAmount(trList.get(index).getQuantity()*trList.get(index).getRate());
+               tableTr.refresh();
+           }
         }catch(Exception e)
         {
             e.printStackTrace();
         }
         txtNetTotal.setText(String.valueOf(Float.parseFloat(txtNetTotal.getText())+tr.getAmount()));
+        calculateGrandTotal();
     }
-
     private boolean validate() {
         if(txtPartName.getText().isEmpty())
         {
@@ -236,8 +290,8 @@ public class PurchaseInvoiceController implements Initializable {
             txtQuantity.requestFocus();
             return false;
         }
-        if(null!=stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())) &&
-                !stockService.findByItem_Partno(Long.valueOf(txtPartNo.getText())).getItem().getItemname().equals(txtPartName.getText()))
+        if(null!=stockService.findByItem_Partno(txtPartNo.getText()) &&
+                !stockService.findByItem_Partno(txtPartNo.getText()).getItem().getItemname().equals(txtPartName.getText()))
         {
             alert.showError("This part no is available to another Part");
             txtPartNo.requestFocus();
@@ -252,7 +306,6 @@ public class PurchaseInvoiceController implements Initializable {
 
         return true;
     }
-
     private void setStock(ItemStock stock) {
         if(null!=stock) {
             txtPartName.setText(stock.getItem().getItemname());
@@ -300,5 +353,14 @@ public class PurchaseInvoiceController implements Initializable {
 
 
     }
-
+    private void calculateGrandTotal()
+    {
+        if(txtTransport.getText().isEmpty()) txtTransport.setText(""+0.0f);
+        if(txtOther.getText().isEmpty())txtOther.setText(""+0.0f);
+        txtGrand.setText(
+                String.valueOf(Float.parseFloat(txtNetTotal.getText())+
+                        Float.parseFloat(txtTransport.getText())+
+                        Float.parseFloat(txtOther.getText()))
+        );
+    }
 }

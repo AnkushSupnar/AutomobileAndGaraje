@@ -10,7 +10,7 @@ public class ItemStockService {
     @Autowired
     private ItemStockRepository repository;
 
-    public ItemStock findByItem_Partno(Long partno){
+    public ItemStock findByItem_Partno(String partno){
         return repository.findByItem_Partno(partno);
     }
 

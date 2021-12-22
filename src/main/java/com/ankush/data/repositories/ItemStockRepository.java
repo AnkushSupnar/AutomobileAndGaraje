@@ -6,11 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemStockRepository extends JpaRepository<ItemStock, Long> {
-    ItemStock findByItem_Partno(Long partno);
-
+    ItemStock findByItem_Partno(String partno);
     ItemStock findByItem_Itemname(String itemname);
-
-
 
 
 }

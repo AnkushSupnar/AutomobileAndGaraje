@@ -18,7 +18,7 @@ public class PurchaseTransaction {
     private Long id;
 
     @Column(name = "partno")
-    private Long partno;
+    private String partno;
 
     @Column(name = "partname")
     private String partname;

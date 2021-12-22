@@ -22,7 +22,7 @@ public class Item {
     private String itemname;
 
     @Column(name = "partno")
-    private Long partno;
+    private String partno;
 
 
 }

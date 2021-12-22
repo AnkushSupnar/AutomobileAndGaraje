@@ -149,7 +149,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" text="CLEAR">
+                  <Button fx:id="btnClear" mnemonicParsing="false" text="CLEAR">
                      <graphic>
                         <FontAwesomeIcon glyphName="RECYCLE" />
                      </graphic>
