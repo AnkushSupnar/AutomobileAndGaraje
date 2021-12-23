@@ -8,10 +8,7 @@ import com.ankush.data.entities.ItemStock;
 import com.ankush.data.entities.PurchaseInvoice;
 import com.ankush.data.entities.PurchaseParty;
 import com.ankush.data.entities.PurchaseTransaction;
-import com.ankush.data.service.BankService;
-import com.ankush.data.service.ItemService;
-import com.ankush.data.service.ItemStockService;
-import com.ankush.data.service.PurchasePartyService;
+import com.ankush.data.service.*;
 import com.ankush.view.AlertNotification;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
@@ -83,6 +80,7 @@ public class PurchaseInvoiceController implements Initializable {
     @Autowired private ItemStockService stockService;
     @Autowired private AlertNotification alert;
     @Autowired private BankService bankService;
+    @Autowired private PurchaseInvoiceService purchaseService;
 
     private  SuggestionProvider<String> partyNameProvider;
     private  SuggestionProvider<String> itemNameProvider;
@@ -367,6 +365,35 @@ public class PurchaseInvoiceController implements Initializable {
 
     private void save() {
         if(!validateBill())return;
+        PurchaseInvoice invoice = PurchaseInvoice.builder()
+                .date(date.getValue())
+                .bank(bankService.getByName(cmbBank.getValue()))
+                .invoiceno(txtInvoice.getText())
+                .party(partyService.getPartyByName(txtPartyName.getText()).get(0))
+                .grandtotal(Float.parseFloat(txtGrand.getText()))
+                .nettotal(Float.parseFloat(txtNetTotal.getText()))
+                .other(Float.parseFloat(txtOther.getText()))
+                .transport(Float.parseFloat(txtTransport.getText())
+                ).build();
+
+       trList.forEach(t->t.setId(null));
+       trList.forEach(t->t.setInvoice(invoice));
+        invoice.setPurchaseTransactions(trList);
+        int flag=purchaseService.saveInvoice(invoice);
+        invoice.getPurchaseTransactions().forEach(t-> System.out.println(t));
+        if(flag==1)
+        {
+            alert.showSuccess("Invoice Saved Success");
+        }
+        else if(flag==2)
+        {
+            alert.showSuccess("Invoice Update Success");
+        }
+        else {
+            alert.showError("Error in Saving Invoice");
+        }
+
+
     }
 
     private boolean validateBill() {

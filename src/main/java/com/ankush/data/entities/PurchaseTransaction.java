@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Builder
+@ToString
 public class PurchaseTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +35,7 @@ public class PurchaseTransaction {
 
     @ManyToOne
     @JoinColumn(name = "invoiceid")
+    @ToString.Exclude
     private PurchaseInvoice invoice;
 
 }

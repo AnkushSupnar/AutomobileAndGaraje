@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class PurchaseInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
