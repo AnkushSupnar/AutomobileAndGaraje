@@ -396,6 +396,7 @@ public class PurchaseInvoiceController implements Initializable {
         if(id!=null){
             invoice.setId(id);
 
+
         }
        trList.forEach(t->t.setId(null));
        trList.forEach(t->t.setInvoice(invoice));
@@ -418,8 +419,6 @@ public class PurchaseInvoiceController implements Initializable {
         else {
             alert.showError("Error in Saving Invoice");
         }
-
-
     }
 
     private void addInStock(PurchaseInvoice invoice) {
@@ -429,6 +428,7 @@ public class PurchaseInvoiceController implements Initializable {
                     .partno(t.getPartno())
                     .itemname(t.getPartname()).build();
             itemService.saveItem(item);
+            item.setId(itemService.findByItemNameAndPartno(item.getItemname(),item.getPartno()).getId());
             ItemStock stock = ItemStock.builder()
                     .item(item)
                     .quantity(t.getQuantity())
@@ -438,7 +438,6 @@ public class PurchaseInvoiceController implements Initializable {
             stockService.saveItemStock(stock);
         }
     }
-
     private void addInBillList(PurchaseInvoice invoice)
     {
         billList.clear();

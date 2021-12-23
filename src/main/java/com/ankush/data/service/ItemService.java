@@ -35,11 +35,16 @@ public class ItemService {
     {
         return repository.findByItemnameAndPartno(itemname,partno);
     }
-    public void saveItem(Item item)
+    public Item saveItem(Item item)
     {
-        if(findByItemNameAndPartno(item.getItemname(),item.getPartno())==null)
+        Item i =findByItemNameAndPartno(item.getItemname(),item.getPartno());
+        if(i==null)
         {
-            repository.save(item);
+             return repository.save(item);
+        }
+        else
+        {
+            return i;
         }
     }
 }
