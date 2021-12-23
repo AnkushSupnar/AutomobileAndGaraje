@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PurchaseInvoiceService {
@@ -24,6 +25,7 @@ public class PurchaseInvoiceService {
             return 2;
         }
     }
+    public Optional<PurchaseInvoice> getInvoiceById(Long id){return repository.findById(id);}
     public List<PurchaseInvoice>getAllInvoice(){return repository.findAll();}
     public List<PurchaseInvoice>getInvoiceByDate(LocalDate date){return repository.findAll();}
     public List<PurchaseInvoice>findByDateBetween(LocalDate start,LocalDate end){return repository.findByDateBetween(start,end);}

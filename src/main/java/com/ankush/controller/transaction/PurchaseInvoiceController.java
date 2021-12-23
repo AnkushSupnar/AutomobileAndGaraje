@@ -4,14 +4,13 @@ import com.ankush.Main;
 import com.ankush.common.CommonData;
 import com.ankush.config.SpringFXMLLoader;
 import com.ankush.config.StageManager;
-import com.ankush.data.entities.ItemStock;
-import com.ankush.data.entities.PurchaseInvoice;
-import com.ankush.data.entities.PurchaseParty;
-import com.ankush.data.entities.PurchaseTransaction;
+import com.ankush.data.entities.*;
 import com.ankush.data.service.*;
 import com.ankush.view.AlertNotification;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -40,6 +39,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 @Component
 public class PurchaseInvoiceController implements Initializable {
@@ -66,7 +66,7 @@ public class PurchaseInvoiceController implements Initializable {
     @FXML private TableColumn<PurchaseInvoice, LocalDate> colDate;
     @FXML private TableColumn<PurchaseInvoice,String> colInvoiceNo;
     @FXML private TableColumn<PurchaseInvoice,Float> colPaid;
-    @FXML private TableColumn<PurchaseInvoice,Float> colRemaining;
+    @FXML private TableColumn<PurchaseInvoice,Number> colRemaining;
 
     @FXML private DatePicker date;
     @FXML private DatePicker dateSearch;
@@ -87,9 +87,12 @@ public class PurchaseInvoiceController implements Initializable {
     private  SuggestionProvider<String> partnoProvider;
     private ItemStock stock;
     private ObservableList<PurchaseTransaction>trList = FXCollections.observableArrayList();
+    private ObservableList<PurchaseInvoice>billList = FXCollections.observableArrayList();
+    private Long id;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date.setValue(LocalDate.now());
+        id=null;
         stock=null;
         cmbBank.getItems().addAll(bankService.getAllBankNames());
         partyNameProvider = SuggestionProvider.create(partyService.getAllPartyNames());
@@ -98,6 +101,7 @@ public class PurchaseInvoiceController implements Initializable {
         new AutoCompletionTextFieldBinding<>(txtPartName,itemNameProvider);
         partnoProvider = SuggestionProvider.create(itemService.getAllPartNo());
         new AutoCompletionTextFieldBinding<>(txtPartNo,partnoProvider);
+
         colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPartNo.setCellValueFactory(new PropertyValueFactory<>("partno"));
         colPartName.setCellValueFactory(new PropertyValueFactory<>("partname"));
@@ -105,6 +109,18 @@ public class PurchaseInvoiceController implements Initializable {
         colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         tableTr.setItems(trList);
+
+
+        colSrNo2.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colPartyName.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getParty().getName()));
+        colAmount2.setCellValueFactory(new PropertyValueFactory<>("grandtotal"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colInvoiceNo.setCellValueFactory(new PropertyValueFactory<>("invoiceno"));
+        colPaid.setCellValueFactory(new PropertyValueFactory<>("paid"));
+        colRemaining.setCellValueFactory(cellData->new SimpleFloatProperty((cellData.getValue().getGrandtotal()-cellData.getValue().getPaid())));
+        billList.addAll(purchaseService.getInvoiceByDate(date.getValue()));
+        tableBill.setItems(billList);
+
         btnSearchParty.setOnAction(e->searchParty());
         btnAddNew.setOnAction(e->addNewParty(e));
 
@@ -193,6 +209,8 @@ public class PurchaseInvoiceController implements Initializable {
         btnClear.setOnAction(e->clear());
 
         btnSave.setOnAction(e->save());
+        btnUpdate2.setOnAction(e->updateBill());
+        btnClear2.setOnAction(e->clearBill());
 
     }
     private void clear()  {
@@ -274,9 +292,7 @@ public class PurchaseInvoiceController implements Initializable {
         }
         if(txtPartNo.getText().isEmpty())
         {
-            alert.showError("Enter Part No");
-            txtPartNo.requestFocus();
-            return false;
+           txtPartNo.setText("-");
         }
         if(txtPartRate.getText().isEmpty())
         {
@@ -373,9 +389,14 @@ public class PurchaseInvoiceController implements Initializable {
                 .grandtotal(Float.parseFloat(txtGrand.getText()))
                 .nettotal(Float.parseFloat(txtNetTotal.getText()))
                 .other(Float.parseFloat(txtOther.getText()))
+                .paid(Float.parseFloat(txtPaid.getText()))
                 .transport(Float.parseFloat(txtTransport.getText())
                 ).build();
 
+        if(id!=null){
+            invoice.setId(id);
+
+        }
        trList.forEach(t->t.setId(null));
        trList.forEach(t->t.setInvoice(invoice));
         invoice.setPurchaseTransactions(trList);
@@ -383,11 +404,16 @@ public class PurchaseInvoiceController implements Initializable {
         invoice.getPurchaseTransactions().forEach(t-> System.out.println(t));
         if(flag==1)
         {
+            addInStock(invoice);
             alert.showSuccess("Invoice Saved Success");
+            addInBillList(invoice);
+            clearBill();
         }
         else if(flag==2)
         {
             alert.showSuccess("Invoice Update Success");
+            addInBillList(invoice);
+            clearBill();
         }
         else {
             alert.showError("Error in Saving Invoice");
@@ -396,6 +422,64 @@ public class PurchaseInvoiceController implements Initializable {
 
     }
 
+    private void addInStock(PurchaseInvoice invoice) {
+        for(PurchaseTransaction t:invoice.getPurchaseTransactions())
+        {
+            Item item = Item.builder()
+                    .partno(t.getPartno())
+                    .itemname(t.getPartname()).build();
+            itemService.saveItem(item);
+            ItemStock stock = ItemStock.builder()
+                    .item(item)
+                    .quantity(t.getQuantity())
+                    .purchaserate(t.getRate())
+                    .sallingrate(0.0f)
+                    .build();
+            stockService.saveItemStock(stock);
+        }
+    }
+
+    private void addInBillList(PurchaseInvoice invoice)
+    {
+        billList.clear();
+        billList.addAll(purchaseService.getInvoiceByDate(LocalDate.now()));
+        tableBill.refresh();
+    }
+
+    private void updateBill() {
+        if(tableBill.getSelectionModel().getSelectedItem()==null) return;
+        PurchaseInvoice invoice =
+                purchaseService.getInvoiceById(tableBill.getSelectionModel().getSelectedItem().getId()).get();
+        System.out.println("To Edit="+invoice);
+        id=invoice.getId();
+        txtInvoice.setText(invoice.getInvoiceno());
+        txtPartyName.setText(invoice.getParty().getName());
+        searchParty();
+        trList.clear();
+        invoice.getPurchaseTransactions().forEach(t->addInTrList(t));
+        txtGrand.setText(String.valueOf(invoice.getGrandtotal()));
+        txtOther.setText(String.valueOf(invoice.getOther()));
+        txtTransport.setText(String.valueOf(invoice.getTransport()));
+        txtPaid.setText(String.valueOf(invoice.getPaid()));
+        cmbBank.setValue(invoice.getBank().getName());
+        calculateGrandTotal();
+    }
+    private void clearBill()
+    {
+        id=null;
+        txtInvoice.setText("");
+        txtPartyName.setText("");
+        txtPartyInfo.setText("");
+        date.setValue(LocalDate.now());
+        trList.clear();
+        txtNetTotal.setText(""+0.0f);
+        txtOther.setText(""+0.0f);
+        txtTransport.setText(""+0.0f);
+        txtGrand.setText(""+0.0f);
+        txtPaid.setText(""+0.0f);
+        cmbBank.getSelectionModel().clearSelection();
+        clear();
+    }
     private boolean validateBill() {
         if(txtPartyInfo.getText().isEmpty())
         {

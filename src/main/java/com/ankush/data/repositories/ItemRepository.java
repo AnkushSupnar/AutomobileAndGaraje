@@ -17,7 +17,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item>findByPartnoContains(String partno);
 
-
+    Item findByItemnameAndPartno(String itemname,String partno);
 
 
 

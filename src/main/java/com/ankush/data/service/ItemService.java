@@ -4,7 +4,6 @@ import com.ankush.data.entities.Item;
 import com.ankush.data.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +31,15 @@ public class ItemService {
     {
         return findByPartno(partno).stream().map(Item::getPartno).collect(Collectors.toList());
     }
-
-
+    public Item findByItemNameAndPartno(String itemname,String partno)
+    {
+        return repository.findByItemnameAndPartno(itemname,partno);
+    }
+    public void saveItem(Item item)
+    {
+        if(findByItemNameAndPartno(item.getItemname(),item.getPartno())==null)
+        {
+            repository.save(item);
+        }
+    }
 }

@@ -9,5 +9,8 @@ public interface ItemStockRepository extends JpaRepository<ItemStock, Long> {
     ItemStock findByItem_Partno(String partno);
     ItemStock findByItem_Itemname(String itemname);
 
+    ItemStock findByItem_ItemnameAndItem_PartnoAndSallingrate(String itemname,String partno,Float sallingrate);
+
+    ItemStock findByItem_Id(Long id);
 
 }

@@ -47,7 +47,9 @@ public class PurchaseInvoice {
     @Column(name = "grandtotal")
     private Float grandtotal;
 
-    @OneToMany(mappedBy = "invoice", orphanRemoval = true)
+    @Column(name = "paid")
+    private Float paid;
+    @OneToMany(mappedBy = "invoice",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseTransaction> purchaseTransactions = new ArrayList<>();
 
 }
