@@ -19,6 +19,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Item findByItemnameAndPartno(String itemname,String partno);
 
+    List<String> findItemnameByPartno(String partno);
+
+    List<Item> findByPartno(String partno);
+
 
 
 

@@ -17,7 +17,7 @@
     -fx-background-color:#2262C6;
 }
 .sidebar{
-        -fx-border-color:#afd1f3;
+        -fx-border-color:transparent #afd1f3;
         -fx-background-color:#ffffff;
     /*-fx-background-color:linear-gradient(to left,#61D8DE,#E839F6);
     -fx-background-color: #2262C6;

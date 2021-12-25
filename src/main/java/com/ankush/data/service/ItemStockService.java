@@ -12,10 +12,16 @@ public class ItemStockService {
     private ItemStockRepository repository;
 
     public ItemStock findByItem_Partno(String partno){
-        return repository.findByItem_Partno(partno);
+        if(repository.findByItem_Partno(partno).size()==0)
+            return null;
+        else
+        return repository.findByItem_Partno(partno).get(0);
     }
 
     public ItemStock findByItem_Itemname(String itemname){
+        if(repository.findTopByItem_Itemname(itemname).size()==0)
+           return null;
+        else
         return repository.findTopByItem_Itemname(itemname).get(0);
     }
 
@@ -42,9 +48,12 @@ public class ItemStockService {
            }
        }
     }
-    public void reduceStock(ItemStock stock)
+    public void reduceStock(Long id,float qty)
     {
-//        repository.reduceStock(,
-//                stock.getQuantity());
+        repository.reduceStock(id,qty);
+    }
+    public ItemStock findStockByNameAndPartNoAndPurchaseRate(String itemname,String partno,float rate)
+    {
+        return repository.findByItem_ItemnameAndItem_PartnoAndPurchaserate(itemname,partno,rate);
     }
 }

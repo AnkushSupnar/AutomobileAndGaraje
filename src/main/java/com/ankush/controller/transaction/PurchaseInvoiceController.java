@@ -127,12 +127,8 @@ public class PurchaseInvoiceController implements Initializable {
         txtPartNo.setOnAction(e->{
             if(!txtPartNo.getText().isEmpty())
             {
-                //partyNameProvider.clearSuggestions();
-                partyNameProvider.addPossibleSuggestions(itemService.findByPartnoLike(txtPartNo.getText()));
-            }
-            else
-            {
-
+                if(itemService.findByPartno(txtPartNo.getText())!=null)
+                txtPartName.setText(itemService.findByPartno(txtPartNo.getText()).getItemname());
             }
             txtPartName.requestFocus();
         });
@@ -262,7 +258,7 @@ public class PurchaseInvoiceController implements Initializable {
                pt.getPartname().equalsIgnoreCase(tr.getPartname()) &&
                pt.getRate().longValue()==tr.getRate().longValue())
                {
-                   System.out.println("Found");
+
                    index=trList.indexOf(pt);
                    break;
                }
@@ -309,7 +305,15 @@ public class PurchaseInvoiceController implements Initializable {
         if(null!=stockService.findByItem_Partno(txtPartNo.getText()) &&
                 !stockService.findByItem_Partno(txtPartNo.getText()).getItem().getItemname().equals(txtPartName.getText()))
         {
-            alert.showError("This part no is available to another Part");
+            alert.showError("This partno is assigned to another Part");
+            txtPartNo.requestFocus();
+            return false;
+        }
+        if(
+                trList.stream().anyMatch(t->t.getPartno().equalsIgnoreCase(txtPartNo.getText()) && t.getPartname().equalsIgnoreCase(txtPartName.getText()))
+        )
+        {
+            alert.showError("This partno is assigned to another Part");
             txtPartNo.requestFocus();
             return false;
         }
@@ -326,6 +330,7 @@ public class PurchaseInvoiceController implements Initializable {
         if(null!=stock) {
             txtPartName.setText(stock.getItem().getItemname());
             txtPartRate.setText(String.valueOf(stock.getPurchaserate()));
+            txtPartNo.setText(stock.getItem().getPartno());
         }
     }
     private void searchParty() {
@@ -393,16 +398,25 @@ public class PurchaseInvoiceController implements Initializable {
                 .transport(Float.parseFloat(txtTransport.getText())
                 ).build();
 
-        if(id!=null){
-            invoice.setId(id);
+        int result=1;
 
-
-        }
        trList.forEach(t->t.setId(null));
        trList.forEach(t->t.setInvoice(invoice));
         invoice.setPurchaseTransactions(trList);
+        if(id!=null){
+            invoice.setId(id);
+            PurchaseInvoice oldInvoice = purchaseService.getInvoiceById(id).get();
+            result = reduceStock(oldInvoice);
+
+        }
+        if(result==0)
+        {
+            alert.showError("You cant Edit this Purchase Invoice");
+            return;
+        }
         int flag=purchaseService.saveInvoice(invoice);
-        invoice.getPurchaseTransactions().forEach(t-> System.out.println(t));
+      //  invoice.getPurchaseTransactions().forEach(t-> System.out.println(t));
+
         if(flag==1)
         {
             addInStock(invoice);
@@ -412,6 +426,7 @@ public class PurchaseInvoiceController implements Initializable {
         }
         else if(flag==2)
         {
+            addInStock(invoice);
             alert.showSuccess("Invoice Update Success");
             addInBillList(invoice);
             clearBill();
@@ -449,7 +464,7 @@ public class PurchaseInvoiceController implements Initializable {
         if(tableBill.getSelectionModel().getSelectedItem()==null) return;
         PurchaseInvoice invoice =
                 purchaseService.getInvoiceById(tableBill.getSelectionModel().getSelectedItem().getId()).get();
-        System.out.println("To Edit="+invoice);
+       // System.out.println("To Edit="+invoice);
         id=invoice.getId();
         txtInvoice.setText(invoice.getInvoiceno());
         txtPartyName.setText(invoice.getParty().getName());
@@ -504,5 +519,28 @@ public class PurchaseInvoiceController implements Initializable {
             return false;
         }
         return true;
+    }
+    private int reduceStock(PurchaseInvoice invoice)
+    {
+        int flag=0;
+        for(PurchaseTransaction tr:invoice.getPurchaseTransactions())
+        {
+            ItemStock stock = stockService.findStockByNameAndPartNoAndPurchaseRate(tr.getPartname(),tr.getPartno(),tr.getRate());
+            if(stock.getQuantity()<tr.getQuantity())
+            {
+                //not updatable
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0) {
+            for(PurchaseTransaction tr:invoice.getPurchaseTransactions()){
+                ItemStock stock = stockService.findStockByNameAndPartNoAndPurchaseRate(tr.getPartname(),tr.getPartno(),tr.getRate());
+                stockService.reduceStock(stock.getId(),tr.getQuantity());
+            }
+            return 1;
+        }
+        else
+            return 0;
     }
 }

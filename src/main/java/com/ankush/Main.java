@@ -39,9 +39,9 @@ public class Main extends Application {
 	}
 	protected void displayInitialScene() {
 
-		//stageManager.switchScene(FxmlView.LOGIN);
+		stageManager.switchScene(FxmlView.LOGIN);
 		//stageManager.switchScene(FxmlView.BILLING);
-		stageManager.switchScene(FxmlView.PURCHASEINVOICE);
+		//AdstageManager.switchScene(FxmlView.PURCHASEINVOICE);
 
 	}
 	private ConfigurableApplicationContext bootstrapSpringApplicationContext() {

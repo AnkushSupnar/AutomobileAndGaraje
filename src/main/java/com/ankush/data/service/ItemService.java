@@ -23,13 +23,18 @@ public class ItemService {
     {
         return repository.findAllPartno();
     }
-    public List<Item>findByPartno(String partno)
+    public Item findByPartno(String partno)
     {
-        return repository.findByPartnoContains(partno);
+        if(repository.findByPartno(partno).size()==0)
+            return null;
+        else
+        return repository.findByPartno(partno).get(0);
     }
+
     public List<String>findByPartnoLike(String partno)
     {
-        return findByPartno(partno).stream().map(Item::getPartno).collect(Collectors.toList());
+        return null;
+                //findByPartno(partno).stream().map(Item::getItemname).collect(Collectors.toList());
     }
     public Item findByItemNameAndPartno(String itemname,String partno)
     {
@@ -46,5 +51,9 @@ public class ItemService {
         {
             return i;
         }
+    }
+    public List<String>findPartNameByPartNo(String partno)
+    {
+        return repository.findItemnameByPartno(partno);
     }
 }

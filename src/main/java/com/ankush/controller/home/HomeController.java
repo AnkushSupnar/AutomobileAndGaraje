@@ -42,5 +42,9 @@ public class HomeController implements Initializable {
             pane = fxmlLoader.getPage("/fxml/create/CreateMenu.fxml");
             mainPane.setCenter(pane);
         });
+        menuTransaction.setOnMouseClicked(e->{
+            pane = fxmlLoader.getPage("/fxml/transaction/TransactionMenu.fxml");
+            mainPane.setCenter(pane);
+        });
     }
 }
