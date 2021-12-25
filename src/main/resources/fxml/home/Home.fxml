@@ -3,6 +3,8 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainPane" prefHeight="680.0" prefWidth="939.0" style="-fx-background-color: #ffffff;" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.home.HomeController">
+<BorderPane fx:id="mainPane" prefHeight="680.0" prefWidth="939.0" style="-fx-background-color: #709ed9;" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.home.HomeController">
     <left>
         <AnchorPane prefHeight="616.0" prefWidth="191.0" styleClass="sidebar" BorderPane.alignment="CENTER">
             <children>
@@ -158,26 +160,37 @@
                         </VBox>
                     </children>
                 </VBox>
-            <FontAwesomeIcon fill="#2262c6" glyphName="GEAR" layoutX="34.0" layoutY="123.0" size="12em" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="32.57142639160156" AnchorPane.topAnchor="-0.4285736083984375" />
+            <StackPane layoutX="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="120.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/wp4757097.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
             </children>
+         <BorderPane.margin>
+            <Insets left="5.0" />
+         </BorderPane.margin>
         </AnchorPane>
     </left>
     <top>
-        <AnchorPane prefHeight="57.0" prefWidth="600.0" style="-fx-background-color: white; -fx-border-color: #afd1f3;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="57.0" prefWidth="600.0" style="-fx-background-color: #709ed9; -fx-border-color: transparent;" BorderPane.alignment="CENTER">
             <children>
-                <StackPane layoutX="201.0" layoutY="1.0" prefHeight="62.0" prefWidth="399.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <StackPane layoutX="201.0" layoutY="1.0" prefHeight="62.0" prefWidth="399.0" style="-fx-background-color: #709ed9;" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Window Title" StackPane.alignment="CENTER">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Window Title" StackPane.alignment="CENTER">
                             <font>
                                 <Font name="Eras Demi ITC" size="12.0" />
                             </font>
                         </Text>
-                        <FontAwesomeIcon fill="#536dfe" glyphName="USER" size="1.5em" StackPane.alignment="CENTER_RIGHT">
+                        <FontAwesomeIcon fill="WHITE" glyphName="USER" size="1.5em" StackPane.alignment="CENTER_RIGHT">
                             <StackPane.margin>
                                 <Insets right="100.0" />
                             </StackPane.margin>
                         </FontAwesomeIcon>
-                        <Text fx:id="txtUserName" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name" wrappingWidth="78.7412109375" StackPane.alignment="CENTER_RIGHT">
+                        <Text fx:id="txtUserName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name" wrappingWidth="78.7412109375" StackPane.alignment="CENTER_RIGHT">
                             <StackPane.margin>
                                 <Insets right="10.0" />
                             </StackPane.margin>
@@ -187,8 +200,8 @@
                         </Text>
                     </children>
                 </StackPane>
-                <FontAwesomeIcon fill="#2262c6" glyphName="GEARS" layoutX="9.0" layoutY="48.0" size="4em" />
-                <Label alignment="CENTER" layoutX="69.0" layoutY="20.0" text="Automobile Shope" textFill="#2262c6">
+                <FontAwesomeIcon fill="WHITE" glyphName="GEARS" layoutX="9.0" layoutY="48.0" size="4em" />
+                <Label alignment="CENTER" layoutX="69.0" layoutY="20.0" text="Automobile Shope" textFill="WHITE">
                     <font>
                         <Font name="Berlin Sans FB" size="20.0" />
                     </font>

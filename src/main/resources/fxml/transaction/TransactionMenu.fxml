@@ -14,14 +14,14 @@
          <children>
             <HBox prefHeight="60.0" prefWidth="212.0" styleClass="menutitle">
                <children>
-                  <FontAwesomeIcon fill="#4285f4" glyphName="LAPTOP" size="5em">
+                  <FontAwesomeIcon glyphName="USD" size="4.5em">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="5.0" top="2.0" />
                      </HBox.margin>
                   </FontAwesomeIcon>
                   <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-menuitem" text="DAILY BILLING">
                      <HBox.margin>
-                        <Insets left="10.0" top="30.0" />
+                        <Insets left="5.0" top="30.0" />
                      </HBox.margin>
                      <font>
                         <Font name="System Bold" size="12.0" />

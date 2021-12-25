@@ -1,11 +1,12 @@
 .root{
--fx-background-color:white;
+    -fx-background-color: #709ed9;
 }
 .box{
-/*-fx-background-color:linear-gradient(to bottom, #2262C6,#E839F6);*/
-    -fx-border-color:#caced1;
-    -fx-background-radius: 0px 50px 0px 0px;
-    -fx-border-radius:  0px 50px 0px 0px;
+
+    -fx-background-color: #fff;
+   -fx-border-width:2px 2px 2px 2px;
+        -fx-border-radius:20px;
+        -fx-background-radius:20px;
 }
 .box .glyph-icon{
     -fx-fill:#FF8800;
@@ -14,17 +15,16 @@
     -fx-font-family:Berlin Sans FB;
     -fx-font-size:20px;
     -fx-font-weight: bold;
-    -fx-fill:#FFFFFF;
+    -fx-fill:#4285f4;
 }
 .menutitle{
-     -fx-border-color: transparent transparent #caced1 transparent;
-     -fx-background-radius:0px 50px 0px 0px;
-     -fx-background-color:#4285f4;
-    /*-fx-border: 0px 50px 0px 0px;
-    -fx-border-radius:  0px 50px 0px 0px;*/
+     -fx-background-color:#fff;
+     -fx-border-width:2px 2px 2px 2px;
+     -fx-border-radius:20px;
+     -fx-background-radius:20px;
 }
 .menutitle .glyph-icon{
-    -fx-fill:#FFFFFF;
+    -fx-fill:#4285f4;
 }
 .text-menu{
     -fx-font-family:Roboto;
