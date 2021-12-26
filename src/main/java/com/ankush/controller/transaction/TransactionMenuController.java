@@ -40,5 +40,8 @@ public class TransactionMenuController implements Initializable {
 //            rootPane = (BorderPane) mainPane.getParent();
 //            rootPane.setCenter(pane);
         });
+        menuDailyBilling.setOnMouseClicked(e->{
+            stageManager.switchScene(FxmlView.BILLING);
+        });
     }
 }

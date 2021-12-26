@@ -79,11 +79,11 @@ public enum FxmlView {
     BILLING {
         @Override
         public String getTitle() {
-            return getStringFromResourceBundle("dashboard.title");
+            return "Billing Frame";
         }
         @Override
         public String getFxmlFile() {
-            return "/fxml/transaction/BillingFrame.fxml";
+            return "/fxml/transaction/Billing.fxml";
         }
     },
     RATE {
