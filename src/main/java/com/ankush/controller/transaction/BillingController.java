@@ -2,6 +2,8 @@ package com.ankush.controller.transaction;
 
 import com.ankush.config.StageManager;
 import com.ankush.data.entities.Customer;
+import com.ankush.data.entities.ItemStock;
+import com.ankush.data.entities.Transaction;
 import com.ankush.data.service.BankService;
 import com.ankush.data.service.CustomerService;
 import com.ankush.data.service.ItemService;
@@ -9,9 +11,15 @@ import com.ankush.data.service.ItemStockService;
 import com.ankush.view.AlertNotification;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -24,15 +32,16 @@ public class BillingController implements Initializable {
     private StageManager stageManager;
     @FXML private Button btUpdate,btnAdd,btnClear,btnClearBill,btnHome,btnPrint,btnRemove,btnSave,btnSearch;
     @FXML private Button btnUpdateBill;
-    @FXML private ComboBox<?> cmbBank;
-    @FXML private TableColumn<?, ?> colAmount;
-    @FXML private TableColumn<?, ?> colNo;
-    @FXML private TableColumn<?, ?> colPartName;
-    @FXML private TableColumn<?, ?> colPartNo;
-    @FXML private TableColumn<?, ?> colQty;
-    @FXML private TableColumn<?, ?> colRate;
+    @FXML private ComboBox<String> cmbBank;
+    @FXML private TableView<Transaction> tableTr;
+    @FXML private TableColumn<Transaction, Float> colAmount;
+    @FXML private TableColumn<Transaction,Long> colNo;
+    @FXML private TableColumn<Transaction,String> colPartName;
+    @FXML private TableColumn<Transaction,String> colPartNo;
+    @FXML private TableColumn<Transaction,Float> colQty;
+    @FXML private TableColumn<Transaction,Float> colRate;
     @FXML private DatePicker date;
-    @FXML private TableView<?> tableTr;
+
     @FXML private TextField txtAmount;
     @FXML private TextField txtBillno,txtOther,txtPaid,txtPartName,txtPartNo,txtQty,txtRate;
     @FXML private TextField txtCustomer,txtGrand,txtNetTotal;
@@ -48,7 +57,7 @@ public class BillingController implements Initializable {
     private SuggestionProvider partnoProvider;
     private SuggestionProvider partNameProvider;
     private Customer customer;
-
+    private ObservableList<Transaction>trList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,9 +68,153 @@ public class BillingController implements Initializable {
         partnoProvider = SuggestionProvider.create(itemService.getAllPartNo());
         new AutoCompletionTextFieldBinding<>(txtPartNo,partnoProvider);
 
+
         partNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
         new AutoCompletionTextFieldBinding<>(txtPartName,partNameProvider);
+
+        colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        colNo.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colPartName.setCellValueFactory(new PropertyValueFactory<>("partname"));
+        colPartNo.setCellValueFactory(new PropertyValueFactory<>("partno"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        tableTr.setItems(trList);
+
         btnSearch.setOnAction(e->searchCustomer());
+        txtRate.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtRate.setText(oldValue);
+            }});
+        txtQty.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtQty.setText(oldValue);
+            }});
+        txtPartNo.setOnAction(e->{
+            if(txtPartNo.getText().isEmpty() || txtPartNo.getText().equals("")){
+                txtPartName.requestFocus();
+            }else if(stockService.findByItem_Partno(txtPartNo.getText())!=null)
+            setStock(stockService.findByItem_Partno(txtPartNo.getText()));
+            txtPartName.requestFocus();
+        });
+        txtPartName.setOnAction(e->{
+            if(txtPartName.getText().isEmpty() || txtPartName.getText().equals(""))
+            {
+                return;
+            }
+            else if(stockService.findByItem_Itemname(txtPartName.getText())!=null){
+                setStock(stockService.findByItem_Itemname(txtPartName.getText()));
+                txtQty.requestFocus();
+            }
+        });
+        txtQty.setOnAction(e->{
+            calculateAmount();
+        });
+        txtRate.setOnAction(e->calculateAmount());
+        btnAdd.setOnAction(e->add());
+
+    }
+
+    private void add() {
+        if(!validate()) return;
+       Transaction tr = Transaction.builder()
+               .amount(Float.parseFloat(txtAmount.getText()))
+               .partname(txtPartName.getText())
+               .partno(txtPartNo.getText())
+               .quantity(Float.parseFloat(txtQty.getText()))
+               .rate(Float.parseFloat(txtRate.getText()))
+               .build();
+        addInTrList(tr);
+    }
+
+    private void addInTrList(Transaction tr) {
+        int index=-1;
+        for(Transaction t:trList)
+        {
+            if(t.getPartname().equalsIgnoreCase(tr.getPartname()) &&
+                    t.getPartno().equalsIgnoreCase(tr.getPartno()) &&
+                    t.getRate().longValue()==tr.getRate().longValue()
+            )
+            {
+                index = trList.indexOf(t);
+                break;
+            }
+        }
+        if(index==-1)
+        {
+            tr.setId(Long.valueOf(1));
+            trList.add(tr);
+            tableTr.refresh();
+        }
+        else
+        {
+            tr.setId(Long.valueOf(trList.size()+1));
+            trList.get(index).setQuantity(trList.get(index).getQuantity()+tr.getQuantity());
+            trList.get(index).setAmount(trList.get(index).getRate()*trList.get(index).getQuantity());
+            tableTr.refresh();
+        }
+        txtNetTotal.setText(
+                String.valueOf(Float.parseFloat(txtNetTotal.getText())+tr.getAmount())
+        );
+    }
+
+    private boolean validate() {
+        if(txtPartName.getText().isEmpty())
+        {
+            alert.showError("Enter Item Name");
+            txtPartName.requestFocus();
+            return false;
+        }
+        if(txtQty.getText().isEmpty()|| txtQty.getText().equals(""+0.0f))
+        {
+            alert.showError("Enter Quantity");
+            txtQty.requestFocus();
+            return false;
+        }
+        if(txtRate.getText().isEmpty() || txtRate.getText().equals(""+0.0f))
+        {
+            alert.showError("Enter Part Rate");
+            txtRate.requestFocus();
+            return false;
+        }
+        if(txtAmount.getText().isEmpty() || txtAmount.getText().equals(""+0.0f))
+        {
+            alert.showError("Select Part Again");
+            txtPartName.requestFocus();
+            return false;
+        }
+        calculateAmount();
+        return true;
+    }
+
+    private void setStock(ItemStock stock) {
+        if(null!=stock)
+        {
+            txtPartNo.setText(stock.getItem().getPartno());
+            txtPartName.setText(stock.getItem().getItemname());
+            txtRate.setText(String.valueOf(stock.getSallingrate()));
+            calculateAmount();
+        }
+    }
+
+    private void calculateAmount() {
+        if(txtQty.getText().isEmpty() ||txtQty.getText().equals(""+0.0f)) {
+            txtQty.setText("" + 0.0f);
+            txtQty.requestFocus();
+            return;
+        }
+        if(txtRate.getText().isEmpty() ||txtRate.getText().equals(""+0.0f)){
+            txtRate.setText(""+0.0f);
+            txtRate.requestFocus();
+            return;
+        }
+        txtAmount.setText(
+                String.valueOf(Float.parseFloat(txtRate.getText())*Float.parseFloat(txtQty.getText()))
+        );
+
 
     }
 
