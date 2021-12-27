@@ -15,14 +15,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="636.0" prefWidth="784.0" style="-fx-background-color: #709ed9;" stylesheets="@../css/billing.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.transaction.BillingController">
+<AnchorPane prefHeight="636.0" prefWidth="1017.0" style="-fx-background-color: #709ed9;" stylesheets="@../css/billing.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.transaction.BillingController">
    <children>
       <Pane layoutY="3.0" prefHeight="190.0" prefWidth="593.0" styleClass="box" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="3.0">
          <children>
             <Label layoutX="22.0" layoutY="3.0" text="Bill no" />
-            <DatePicker fx:id="date" layoutX="474.0" layoutY="19.0" prefHeight="25.0" prefWidth="93.0" promptText="Select Date" />
+            <DatePicker fx:id="date" layoutX="453.0" layoutY="19.0" prefHeight="25.0" prefWidth="114.0" promptText="Select Date" />
             <Label layoutX="474.0" layoutY="2.0" text="Date" />
-            <TextField fx:id="txtBillno" layoutX="14.0" layoutY="20.0" prefHeight="25.0" prefWidth="137.0">
+            <TextField fx:id="txtBillno" editable="false" layoutX="14.0" layoutY="20.0" prefHeight="25.0" prefWidth="137.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -38,7 +38,7 @@
                   <FontAwesomeIcon glyphName="SEARCH" />
                </graphic>
             </Button>
-            <TextArea fx:id="txtCustomerInfor" layoutX="14.0" layoutY="103.0" prefHeight="77.0" prefWidth="555.0" promptText="Customer Information" />
+            <TextArea fx:id="txtCustomerInfor" editable="false" layoutX="14.0" layoutY="103.0" prefHeight="77.0" prefWidth="555.0" promptText="Customer Information" />
          </children>
       </Pane>
       <Pane layoutX="5.0" layoutY="196.0" prefHeight="98.0" prefWidth="593.0" styleClass="box" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="198.0">
@@ -70,7 +70,7 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtAmount" prefHeight="30.0" prefWidth="74.0" promptText="123456456789">
+                  <TextField fx:id="txtAmount" editable="false" prefHeight="30.0" prefWidth="74.0" promptText="123456456789">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -139,7 +139,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtGrand" alignment="CENTER_RIGHT" promptText="Grand Total" text="0.0">
+                  <TextField fx:id="txtGrand" alignment="CENTER_RIGHT" editable="false" promptText="Grand Total" text="0.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -203,5 +203,25 @@
             <Label layoutX="416.0" layoutY="79.0" text="Grand Total" />
          </children>
       </Pane>
+      <Pane layoutX="601.0" layoutY="3.0" prefHeight="39.0" prefWidth="361.0" styleClass="box" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="3.0">
+         <children>
+            <HBox layoutX="2.0" layoutY="5.0">
+               <children>
+                  <TextField fx:id="txtSearchBill" prefHeight="25.0" prefWidth="86.0" promptText="Bill No" />
+                  <TextField fx:id="txtSearchCustomer" prefHeight="25.0" prefWidth="150.0" promptText="Customer Name" />
+                  <DatePicker fx:id="txtSearchDate" prefHeight="25.0" prefWidth="100.0" promptText="select date" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <TableView fx:id="tableBill" layoutX="607.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
+        <columns>
+          <TableColumn fx:id="colBillno" prefWidth="49.0" text="BILLNO" />
+          <TableColumn fx:id="colDate" prefWidth="88.0" text="DATE" />
+            <TableColumn fx:id="colCustomer" prefWidth="126.0" text="CUSTOMER NAME" />
+            <TableColumn fx:id="colBIllAmount" prefWidth="66.0" text="AMOUNT" />
+            <TableColumn fx:id="colPaid" prefWidth="71.0" text="PAID" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

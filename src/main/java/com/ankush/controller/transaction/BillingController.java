@@ -1,13 +1,11 @@
 package com.ankush.controller.transaction;
 
 import com.ankush.config.StageManager;
+import com.ankush.data.entities.Bill;
 import com.ankush.data.entities.Customer;
 import com.ankush.data.entities.ItemStock;
 import com.ankush.data.entities.Transaction;
-import com.ankush.data.service.BankService;
-import com.ankush.data.service.CustomerService;
-import com.ankush.data.service.ItemService;
-import com.ankush.data.service.ItemStockService;
+import com.ankush.data.service.*;
 import com.ankush.view.AlertNotification;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
@@ -47,11 +45,16 @@ public class BillingController implements Initializable {
     @FXML private TextField txtCustomer,txtGrand,txtNetTotal;
     @FXML private TextArea txtCustomerInfor;
 
+    @FXML private TextField txtSearchBill;
+    @FXML private TextField txtSearchCustomer;
+    @FXML private DatePicker txtSearchDate;
+
     @Autowired private ItemStockService stockService;
     @Autowired private ItemService itemService;
     @Autowired private CustomerService customerService;
     @Autowired private BankService bankService;
     @Autowired private AlertNotification alert;
+    @Autowired private BillService billService;
 
     private SuggestionProvider customerNameProvider;
     private SuggestionProvider partnoProvider;
@@ -62,6 +65,7 @@ public class BillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date.setValue(LocalDate.now());
+        customer = null;
         customerNameProvider = SuggestionProvider.create(customerService.getAllCustomerNames());
         new AutoCompletionTextFieldBinding<>(txtCustomer,customerNameProvider);
 
@@ -72,6 +76,7 @@ public class BillingController implements Initializable {
         partNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
         new AutoCompletionTextFieldBinding<>(txtPartName,partNameProvider);
 
+        cmbBank.getItems().addAll(bankService.getAllBankNames());
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         colNo.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPartName.setCellValueFactory(new PropertyValueFactory<>("partname"));
@@ -93,6 +98,18 @@ public class BillingController implements Initializable {
                 if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
                     txtQty.setText(oldValue);
             }});
+        txtOther.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtOther.setText(oldValue);
+            }});
+        txtPaid.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtPaid.setText(oldValue);
+            }});
         txtPartNo.setOnAction(e->{
             if(txtPartNo.getText().isEmpty() || txtPartNo.getText().equals("")){
                 txtPartName.requestFocus();
@@ -112,10 +129,120 @@ public class BillingController implements Initializable {
         });
         txtQty.setOnAction(e->{
             calculateAmount();
+            txtAmount.requestFocus();
         });
-        txtRate.setOnAction(e->calculateAmount());
+        txtRate.setOnAction(e->{
+            calculateAmount();
+            btnAdd.fire();
+        });
+        txtOther.setOnAction(e->calculateGrandTotal());
         btnAdd.setOnAction(e->add());
+        btUpdate.setOnAction(e->update());
+        btnRemove.setOnAction(e->remove());
+        btnClear.setOnAction(e->clear());
+        btnSave.setOnAction(e->save());
 
+
+    }
+
+    private void save() {
+        if(!validateBill())return;
+        Bill bill = Bill.builder()
+                .bank(bankService.getByName(cmbBank.getValue()))
+                .customer(customer)
+                .date(date.getValue())
+                .grand(Float.parseFloat(txtGrand.getText()))
+                .nettotal(Float.parseFloat(txtNetTotal.getText()))
+                .other(Float.parseFloat(txtOther.getText()))
+                .paid(Float.parseFloat(txtPaid.getText()))
+                .build();
+        trList.forEach(t->t.setId(null));
+        trList.forEach(t->t.setBill(bill));
+        bill.setTransactions(trList);
+        int flag = billService.save(bill);
+        if(flag==1)
+        {
+            alert.showSuccess("Bill Save Success");
+            claerBill();
+        }
+
+    }
+
+    private void claerBill() {
+        customer=null;
+        txtCustomer.setText("");
+        txtCustomerInfor.setText("");
+        trList.clear();
+        txtNetTotal.setText(""+0.0f);
+        txtOther.setText(""+0.0f);
+        txtGrand.setText(""+0.0f);
+        txtPaid.setText("");
+        cmbBank.getSelectionModel().clearSelection();
+        date.setValue(LocalDate.now());
+        txtBillno.setText("");
+        clear();
+    }
+
+    private boolean validateBill() {
+        if(trList.size()==0)
+        {
+            alert.showError("NO Data to Save");
+            return false;
+        }
+        if(txtCustomerInfor.getText().isEmpty())
+        {
+            alert.showError("Select Customer Again");
+            txtCustomer.requestFocus();
+            return false;
+        }
+        if(customer==null)
+        {
+            alert.showError("Customer not Found Select Again");
+            txtCustomer.requestFocus();
+            return false;
+        }
+        if(cmbBank.getValue()==null || cmbBank.getSelectionModel().getSelectedItem()==null)
+        {
+            alert.showError("Select Bank");
+            cmbBank.requestFocus();
+            return false;
+        }
+        if(txtPaid.getText().isEmpty() || txtPaid.getText().equals(""))
+        {
+            alert.showError("Enter Paid Amount");
+            txtPaid.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private void clear() {
+        txtPartName.setText("");
+        txtPartNo.setText("");
+        txtQty.setText(""+0.0f);
+        txtRate.setText(""+0.0f);
+        txtAmount.setText(""+0.0f);
+        txtPartNo.requestFocus();
+    }
+    private void remove() {
+        if(tableTr.getSelectionModel().getSelectedItem()==null) return;
+        txtNetTotal.setText(
+                String.valueOf(Float.parseFloat(txtNetTotal.getText())-
+                        trList.get(tableTr.getSelectionModel().getSelectedIndex()).getAmount())
+        );
+        trList.remove(tableTr.getSelectionModel().getSelectedIndex());
+        tableTr.refresh();
+        calculateGrandTotal();
+    }
+
+    private void update() {
+        if(tableTr.getSelectionModel().getSelectedItem()==null)return;
+        Transaction tr = tableTr.getSelectionModel().getSelectedItem();
+        txtPartNo.setText(tr.getPartno());
+        txtPartName.setText(tr.getPartname());
+        txtQty.setText(String.valueOf(tr.getQuantity()));
+        txtRate.setText(String.valueOf(tr.getRate()));
+        calculateAmount();
     }
 
     private void add() {
@@ -128,6 +255,8 @@ public class BillingController implements Initializable {
                .rate(Float.parseFloat(txtRate.getText()))
                .build();
         addInTrList(tr);
+        clear();
+
     }
 
     private void addInTrList(Transaction tr) {
@@ -159,6 +288,16 @@ public class BillingController implements Initializable {
         txtNetTotal.setText(
                 String.valueOf(Float.parseFloat(txtNetTotal.getText())+tr.getAmount())
         );
+        calculateGrandTotal();
+    }
+
+    private void calculateGrandTotal() {
+        if(txtNetTotal.getText().isEmpty())txtNetTotal.setText(""+0.0f);
+        if(txtOther.getText().isEmpty())txtOther.setText(""+0.0f);
+        txtGrand.setText(
+                String.valueOf(Float.parseFloat(txtNetTotal.getText())+Float.parseFloat(txtOther.getText()))
+        );
+
     }
 
     private boolean validate() {
