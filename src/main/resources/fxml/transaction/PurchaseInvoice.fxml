@@ -51,7 +51,7 @@
             <HBox layoutX="14.0" layoutY="41.0" spacing="10.0">
                <children>
                   <Label text="Party Name" />
-                  <TextField fx:id="txtPartyName" prefHeight="30.0" prefWidth="300.0">
+                  <TextField fx:id="txtPartyName" prefHeight="30.0" prefWidth="300.0" promptText="Enter Party Name">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -79,7 +79,10 @@
                   <FontAwesomeIcon fill="#b2bbf3" glyphName="INFO_CIRCLE" size="1.5em" />
                </graphic>
             </Label>
-            <TextArea fx:id="txtPartyInfo" layoutX="14.0" layoutY="92.0" prefHeight="82.0" prefWidth="523.0" />
+            <TextArea fx:id="txtPartyInfo" layoutX="14.0" layoutY="92.0" prefHeight="82.0" prefWidth="523.0" promptText="Party Address">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></TextArea>
          </children>
       </Pane>
       <Pane layoutY="214.0" prefHeight="127.0" prefWidth="697.0" styleClass="box" AnchorPane.leftAnchor="0.0">
@@ -92,27 +95,27 @@
             <Label layoutX="14.0" layoutY="20.0" text="Part Number" />
             <HBox layoutX="14.0" layoutY="38.0" spacing="5.0">
                <children>
-                  <TextField fx:id="txtPartNo" promptText="Enter Part Number">
+                  <TextField fx:id="txtPartNo" prefHeight="32.0" promptText="Enter Part Number">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtPartName" promptText="Enter Part Name">
+                  <TextField fx:id="txtPartName" promptText="maalaacao naava">
+                     <font>
+                        <Font name="Kiran" size="20.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtPartRate" prefHeight="32.0" prefWidth="120.0" promptText="Enter Part Rate">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtPartRate" prefHeight="30.0" prefWidth="100.0" promptText="Enter Part Rate">
+                  <TextField fx:id="txtQuantity" prefHeight="32.0" prefWidth="120.0" promptText="Enter Part Qty">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtQuantity" prefHeight="30.0" prefWidth="100.0" promptText="Enter Part Qty">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-                  <TextField fx:id="txtAmount" editable="false" prefHeight="30.0" prefWidth="100.0" promptText="Total Amount">
+                  <TextField fx:id="txtAmount" editable="false" prefHeight="32.0" prefWidth="120.0" promptText="Total Amount">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -161,7 +164,7 @@
             </HBox>
          </children>
       </Pane>
-      <TableView fx:id="tableTr" layoutX="-1.0" layoutY="345.0" prefHeight="236.0" prefWidth="697.0" AnchorPane.bottomAnchor="153.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="345.0">
+      <TableView fx:id="tableTr" layoutX="-1.0" layoutY="345.0" prefHeight="236.0" prefWidth="697.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="153.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="345.0">
         <columns>
           <TableColumn fx:id="colSrNo" prefWidth="50.0" text="SR.NO" />
           <TableColumn fx:id="colPartNo" prefWidth="177.0" text="PART NO." />

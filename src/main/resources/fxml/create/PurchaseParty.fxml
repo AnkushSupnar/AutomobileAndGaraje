@@ -15,7 +15,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane fx:id="mainPane" prefHeight="659.0" prefWidth="1180.0" stylesheets="@../css/addcustomer.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.PurchasePartyController">
    <children>
       <StackPane layoutX="377.0" layoutY="23.0" prefHeight="47.0" prefWidth="200.0" styleClass="title" stylesheets="@../css/title.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -47,9 +46,9 @@
                   <Insets left="25.0" top="25.0" />
                </VBox.margin>
             </Label>
-            <MFXTextField fx:id="txtName" lineStrokeCap="SQUARE" lineStrokeWidth="1.0" prefHeight="35.0" prefWidth="355.0" promptText="Party Name" VBox.vgrow="ALWAYS">
+            <MFXTextField fx:id="txtName" lineStrokeCap="SQUARE" lineStrokeWidth="1.0" prefHeight="35.0" prefWidth="355.0" promptText="Enter Party Name" VBox.vgrow="ALWAYS">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="25.0" />
@@ -63,13 +62,13 @@
                   <Insets left="25.0" top="25.0" />
                </VBox.margin>
             </Label>
-            <MFXTextField fx:id="txtAddress" layoutX="10.0" layoutY="183.0" lineStrokeWidth="1.0" prefHeight="35.0" prefWidth="355.0" promptText="Party Address">
-               <font>
-                  <Font size="16.0" />
-               </font>
+            <MFXTextField fx:id="txtAddress" layoutX="10.0" layoutY="183.0" lineStrokeWidth="1.0" prefHeight="35.0" prefWidth="355.0" promptText="Enter Party Address">
                <VBox.margin>
                   <Insets left="25.0" />
                </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </MFXTextField>
             <Label layoutX="10.0" layoutY="119.0" text="Party Contact" textFill="#b2caf2">
                <font>
@@ -81,7 +80,7 @@
             </Label>
             <MFXTextField fx:id="txtContact" layoutX="10.0" layoutY="208.0" lineStrokeWidth="1.0" prefWidth="355.0" promptText="Party Contact">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="25.0" />
@@ -97,7 +96,7 @@
             </Label>
             <MFXTextField fx:id="txtPan" layoutX="10.0" layoutY="233.0" lineStrokeWidth="1.0" prefWidth="355.0" promptText="Party PAN">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="25.0" />
@@ -113,7 +112,7 @@
             </Label>
             <MFXTextField fx:id="txtGst" layoutX="10.0" layoutY="258.0" lineStrokeWidth="1.0" prefWidth="355.0" promptText="Party GST">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="25.0" />

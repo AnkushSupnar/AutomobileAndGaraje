@@ -51,9 +51,9 @@ public class AddCustomerController implements Initializable {
         colmobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
         colAddress.setCellValueFactory(
                 cellData->new SimpleStringProperty(
-                        cellData.getValue().getAddressline()+" City: "
-                        +cellData.getValue().getVillage()+" Taluka: "
-                        +cellData.getValue().getTaluka()+" District: "
+                        cellData.getValue().getAddressline()+" , "
+                        +cellData.getValue().getVillage()+" , "
+                        +cellData.getValue().getTaluka()+" , "
                         +cellData.getValue().getDistrict()
                         ));
         list.addAll(service.getAllCustomer());

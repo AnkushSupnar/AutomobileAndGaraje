@@ -6,9 +6,13 @@ import com.ankush.data.entities.Customer;
 import com.ankush.data.entities.ItemStock;
 import com.ankush.data.entities.Transaction;
 import com.ankush.data.service.*;
+import com.ankush.print.PrintBill;
 import com.ankush.view.AlertNotification;
+import com.ankush.view.FxmlView;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,17 +21,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
+
 @Component
 public class BillingController implements Initializable {
     @Autowired @Lazy
     private StageManager stageManager;
+    @FXML private AnchorPane rootPane;
     @FXML private Button btUpdate,btnAdd,btnClear,btnClearBill,btnHome,btnPrint,btnRemove,btnSave,btnSearch;
     @FXML private Button btnUpdateBill;
     @FXML private ComboBox<String> cmbBank;
@@ -40,14 +50,26 @@ public class BillingController implements Initializable {
     @FXML private TableColumn<Transaction,Float> colRate;
     @FXML private DatePicker date;
 
+    private ListView listView;
+    private ObservableList<String> itemNameSearch = FXCollections.observableArrayList();
+
+    @FXML private TextField txtSearchBill;
+    @FXML private TextField txtSearchCustomer;
+    @FXML private DatePicker dateSearch;
+    @FXML private Button btnShowAll;
+
+
+    @FXML private TableView<Bill> tableBill;
+    @FXML private TableColumn<Bill,Long> colBillno;
+    @FXML private TableColumn<Bill,LocalDate> colDate;
+    @FXML private TableColumn<Bill,String> colCustomer;
+    @FXML private TableColumn<Bill,Number> colBIllAmount;
+    @FXML private TableColumn<Bill,Number> colPaid;
+
     @FXML private TextField txtAmount;
     @FXML private TextField txtBillno,txtOther,txtPaid,txtPartName,txtPartNo,txtQty,txtRate;
     @FXML private TextField txtCustomer,txtGrand,txtNetTotal;
     @FXML private TextArea txtCustomerInfor;
-
-    @FXML private TextField txtSearchBill;
-    @FXML private TextField txtSearchCustomer;
-    @FXML private DatePicker txtSearchDate;
 
     @Autowired private ItemStockService stockService;
     @Autowired private ItemService itemService;
@@ -61,6 +83,7 @@ public class BillingController implements Initializable {
     private SuggestionProvider partNameProvider;
     private Customer customer;
     private ObservableList<Transaction>trList = FXCollections.observableArrayList();
+    private ObservableList<Bill>billList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,9 +96,10 @@ public class BillingController implements Initializable {
         new AutoCompletionTextFieldBinding<>(txtPartNo,partnoProvider);
 
 
-        partNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
-        new AutoCompletionTextFieldBinding<>(txtPartName,partNameProvider);
+       // partNameProvider = SuggestionProvider.create(itemService.getAllItemNames());
+        //new AutoCompletionTextFieldBinding<>(txtPartName,partNameProvider);
 
+        addItemNameSearch();
         cmbBank.getItems().addAll(bankService.getAllBankNames());
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         colNo.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -84,6 +108,17 @@ public class BillingController implements Initializable {
         colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
         tableTr.setItems(trList);
+
+        colBillno.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colCustomer.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getCustomer().getCustomername()));
+        colBIllAmount.setCellValueFactory(new PropertyValueFactory<>("grand"));
+        colPaid.setCellValueFactory(new PropertyValueFactory<>("paid"));
+        dateSearch.setValue(LocalDate.now());
+        billList.addAll(billService.getBillByDate(dateSearch.getValue()));
+        tableBill.setItems(billList);
+        new AutoCompletionTextFieldBinding<>(txtSearchCustomer,customerNameProvider);
+
 
         btnSearch.setOnAction(e->searchCustomer());
         txtRate.textProperty().addListener(new ChangeListener<String>() {
@@ -129,11 +164,22 @@ public class BillingController implements Initializable {
         });
         txtQty.setOnAction(e->{
             calculateAmount();
+            if(txtRate.getText().equalsIgnoreCase(""+0.0f))
+                txtRate.requestFocus();
+            else
             txtAmount.requestFocus();
         });
         txtRate.setOnAction(e->{
             calculateAmount();
-            btnAdd.fire();
+           // btnAdd.fire();
+            if(!txtRate.getText().equalsIgnoreCase(""+0.0f))
+                txtAmount.requestFocus();
+        });
+        txtAmount.setOnAction(e->{
+            calculateAmount();
+            if(!txtAmount.getText().equals(""+0.0f))
+                btnAdd.fire();
+
         });
         txtOther.setOnAction(e->calculateGrandTotal());
         btnAdd.setOnAction(e->add());
@@ -141,10 +187,63 @@ public class BillingController implements Initializable {
         btnRemove.setOnAction(e->remove());
         btnClear.setOnAction(e->clear());
         btnSave.setOnAction(e->save());
+        btnUpdateBill.setOnAction(e->{
+            if(tableBill.getSelectionModel().getSelectedItem()==null) return;
+            Bill bill = billList.get(tableBill.getSelectionModel().getSelectedIndex());
+            txtBillno.setText(String.valueOf(bill.getId()));
+            txtCustomer.setText(bill.getCustomer().getCustomername());
+            btnSearch.fire();
+            trList.clear();
+            trList.addAll(bill.getTransactions());
+            txtNetTotal.setText(String.valueOf(bill.getNettotal()));
+            txtOther.setText(String.valueOf(bill.getOther()));
+            txtGrand.setText(String.valueOf(bill.getGrand()));
+            cmbBank.setValue(bill.getBank().getName());
+            txtPaid.setText(String.valueOf(bill.getPaid()));
+            date.setValue(bill.getDate());
 
+        });
+        dateSearch.setOnAction(e->{
+            if(dateSearch.getValue()!=null) {
+                billList.clear();
+                billList.addAll(billService.getBillByDate(dateSearch.getValue()));
+                tableBill.refresh();
+            }
+        });
+        btnShowAll.setOnAction(e->{
+            billList.clear();
+            billList.addAll(billService.getAllBills());
+            tableBill.refresh();
+        });
+        txtSearchCustomer.setOnAction(e->{
+            if(!txtSearchCustomer.getText().isEmpty()) {
+                billList.clear();
+                billList.addAll(billService.getByCustomerName(txtSearchCustomer.getText()));
+            }
+        });
+        txtSearchBill.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,100}([\\.]\\d{0,4})?"))
+                    txtSearchBill.setText(oldValue);
+            }});
+        txtSearchBill.setOnAction(e->{
+            if(!txtSearchBill.getText().isEmpty() && billService.getByBillno(Long.parseLong(txtSearchBill.getText())).isPresent()) {
+                billList.clear();
+                billList.add(billService.getByBillno(Long.parseLong(txtSearchBill.getText())).get());
+            }
+
+        });
+        btnClearBill.setOnAction(e->clearBill());
+        btnHome.setOnAction(e->stageManager.switchScene(FxmlView.HOME));
+        btnPrint.setOnAction(e->{
+            if(tableBill.getSelectionModel().getSelectedItem()!=null){
+                new PrintBill(tableBill.getSelectionModel().getSelectedItem());
+            }
+
+        });
 
     }
-
     private void save() {
         if(!validateBill())return;
         Bill bill = Bill.builder()
@@ -160,15 +259,174 @@ public class BillingController implements Initializable {
         trList.forEach(t->t.setBill(bill));
         bill.setTransactions(trList);
         int flag = billService.save(bill);
+        Bill oldBill =null;
+        if(!txtBillno.getText().isEmpty())
+        {
+            bill.setId(Long.parseLong(txtBillno.getText()));
+           oldBill = billService.getByBillno(Long.parseLong(txtBillno.getText())).get();
+           addInStock(oldBill);
+        }
         if(flag==1)
         {
-            alert.showSuccess("Bill Save Success");
-            claerBill();
+            bill.getTransactions().forEach(t->reduceStock(t));
+            alert.showSuccess("Bill Save Success "+bill.getId());
+            new PrintBill(bill);
+            clearBill();
         }
-
+        else if(flag==2)
+        {
+            bill.getTransactions().forEach(t->reduceStock(t));
+            alert.showSuccess("Bil Update Success");
+            clearBill();
+        }
+    }
+    private void addInStock(Bill oldBill) {
+        for(Transaction tr:oldBill.getTransactions())
+        {
+            List<ItemStock> stock = stockService.getStockByPartno(tr.getPartno());
+            stockService.addStock(stock.get(stock.size()-1).getId(),tr.getQuantity());
+        }
+    }
+    private void reduceStock(Transaction tr)
+    {
+        List<ItemStock>stock = stockService.getStockByPartno(tr.getPartno());
+        Long id= Long.valueOf(0);
+        float q=tr.getQuantity();
+        for(ItemStock s:stock)
+        {
+            if(q>0.0f) {
+                if (s.getQuantity() >= q) {
+                    stockService.reduceStock(s.getId(), q);
+                    q -= q;
+                } else {
+                    stockService.reduceStock(s.getId(), s.getQuantity());
+                    q = q - s.getQuantity();
+                }
+            }
+        }
     }
 
-    private void claerBill() {
+    void addItemNameSearch()
+    {
+        itemNameSearch.addAll(itemService.getAllItemNames());
+        listView = new ListView();
+        listView.setStyle("-fx-font:18pt \"Kiran\"");
+        listView.setLayoutX(120);
+        listView.setLayoutY(250);
+        rootPane.getChildren().addAll(listView);
+        listView.setVisible(false);
+        txtPartName.setOnKeyReleased(e->{
+            findItem(txtPartName.getText());
+            if(listView.getItems().size()>0)
+            {
+                listView.getSelectionModel().select(0);
+                listView.setVisible(true);
+            }
+            if(e.getCode()== KeyCode.ENTER){
+                if(listView.getItems().size()>0)
+                {
+                    listView.getSelectionModel().select(0);
+                    listView.requestFocus();
+                }
+                if(txtPartName.getText().equals(listView.getSelectionModel().getSelectedItem()))
+                {
+//                    if(txtBarcode.getText().isEmpty())
+//                    {
+//                        item = itemService.getItemByName(txtItemName.getText());
+//                    }
+
+                    listView.setVisible(false);
+                    txtQty.requestFocus();
+                    //setItem(item);
+                }
+            }
+            if(e.getCode()==KeyCode.DOWN)
+            {
+                if(listView.getItems().size()>0)
+                {
+                    listView.getSelectionModel().select(0);
+                    listView.requestFocus();
+                }
+            }
+
+        });
+        txtPartName.setOnMouseClicked(e->{
+            findItem(txtPartName.getText());
+            listView.setVisible(true);
+        });
+        listView.setOnKeyReleased(e->{
+            String item = String.valueOf(listView.getSelectionModel().getSelectedItems());
+            if(e.getCode()== KeyCode.ENTER)
+            {
+                txtPartName.setText(item.substring(1,item.length()-1));
+                listView.setVisible(false);
+                txtPartName.requestFocus();
+            }
+        });
+        listView.setOnMouseClicked(e->{
+            if(e.getButton()== MouseButton.PRIMARY && e.getClickCount()==2)
+            {
+                String itemName = String.valueOf(listView.getSelectionModel().getSelectedItems());
+                txtPartName.setText(itemName.substring(1,itemName.length()-1));
+                //setItem(itemService.getItemByName(txtItemName.getText()));
+                txtQty.requestFocus();
+                listView.setVisible(false);
+            }
+        });
+        txtPartName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(t1)
+                {
+                    findItem(txtPartName.getText());
+                    listView.setVisible(true);
+                }
+                else {
+                    if(listView.isFocused())
+                        return;
+                    else
+                        listView.setVisible(false);
+                }
+            }
+        });
+        listView.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if(t1) {
+                    //in focus
+                }
+                else{
+                    if(txtPartName.isFocused())
+                        return;
+                    else
+                        listView.setVisible(false);
+                }
+            }
+        });
+    }
+    void findItem(String find) {
+        //cmodel.removeAllElements();
+        listView.getItems().clear();
+        if(find.equals("")|| find.trim().equals(""))
+        {
+            listView.getItems().clear();
+            listView.getItems().addAll(itemNameSearch);
+            return;
+        }else listView.getItems().clear();
+
+        try {
+            for (int i = 0; i < itemNameSearch.size(); i++) {
+                if (itemNameSearch.get(i).toLowerCase().startsWith(find.toLowerCase())) {
+                    listView.getItems().add(itemNameSearch.get(i));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error in findItem " + e.getMessage());
+            return;
+        }
+    }
+
+    private void clearBill() {
         customer=null;
         txtCustomer.setText("");
         txtCustomerInfor.setText("");
@@ -325,6 +583,12 @@ public class BillingController implements Initializable {
             txtPartName.requestFocus();
             return false;
         }
+        if(stockService.getItemStock(txtPartNo.getText())<=0.0d)
+        {
+            alert.showError("Less Stock Available");
+            txtPartNo.requestFocus();
+            return false;
+        }
         calculateAmount();
         return true;
     }
@@ -363,6 +627,7 @@ public class BillingController implements Initializable {
             return;
         }
         customer = customerService.getByCustomerName(txtCustomer.getText());
+        if(customer!=null)
         txtCustomerInfor.setText(
                 "Name: "+customer.getCustomername()+"\n"
                 +"Address: "+customer.getAddressline()

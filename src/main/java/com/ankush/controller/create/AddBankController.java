@@ -13,10 +13,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component
@@ -128,6 +136,12 @@ public class AddBankController implements Initializable {
     }
 
     private void clear() {
+        try {
+            System.out.println("Report generate" + createReport("html"));
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         txtBankName.setText("");
         txtBalance.setText("");
         txtAccountNo.setText("");
@@ -172,5 +186,26 @@ public class AddBankController implements Initializable {
             return false;
         }
         return true;
+    }
+    private String createReport(String formate) throws FileNotFoundException, JRException {
+        List<Bank>list = bankService.getAllBank();
+        Bank b = bankService.getById(1);
+        String path="C:\\Users\\Ankush\\Desktop\\report";
+        File file = ResourceUtils.getFile("classpath:report/Bank.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
+        Map<String,Object> parameter = new HashMap<>();
+        parameter.put("CreatedBy","Ankush");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameter,dataSource);
+        if(formate.equals("pdf"))
+        {
+        JasperExportManager.exportReportToPdfFile(jasperPrint,path+"\\Bank.pdf");
+        }
+        if(formate.equalsIgnoreCase("html"))
+        {
+            JasperExportManager.exportReportToHtmlFile(jasperPrint,path+"\\Bank.html");
+
+        }
+        return "Report Generated "+path;
     }
 }

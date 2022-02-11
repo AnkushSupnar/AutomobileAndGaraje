@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="612.0" prefWidth="1021.0" stylesheets="@../css/addcustomer.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.AddCustomerController">
+<AnchorPane prefHeight="612.0" prefWidth="1021.0" stylesheets="@../css/addcustomer.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.create.AddCustomerController">
    <children>
       <StackPane layoutX="199.0" layoutY="55.0" prefHeight="42.0" prefWidth="731.0" style="-fx-background-color: #2262C6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -43,10 +43,13 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtCustomerName" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCustomerName" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -56,10 +59,13 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtAddresline" layoutX="10.0" layoutY="27.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtAddresline" layoutX="10.0" layoutY="27.0" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -69,10 +75,13 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtCity" layoutX="10.0" layoutY="69.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCity" layoutX="10.0" layoutY="69.0" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -82,10 +91,13 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtTaluka" layoutX="10.0" layoutY="111.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtTaluka" layoutX="10.0" layoutY="111.0" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -95,10 +107,13 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtDistrict" layoutX="10.0" layoutY="153.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtDistrict" layoutX="10.0" layoutY="153.0" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -108,8 +123,11 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
-            <TextField fx:id="txtcontact" layoutX="10.0" layoutY="195.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+            <TextField fx:id="txtcontact" layoutX="10.0" layoutY="195.0" VBox.vgrow="NEVER">
                <font>
                   <Font size="14.0" />
                </font>
@@ -121,8 +139,11 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
-            <TextField fx:id="txtMobile" layoutX="10.0" layoutY="237.0" prefHeight="25.0" prefWidth="342.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
+            <TextField fx:id="txtMobile" layoutX="10.0" layoutY="237.0" prefHeight="25.0" prefWidth="342.0" VBox.vgrow="NEVER">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
@@ -174,7 +195,7 @@
             </HBox>
          </children>
       </VBox>
-      <TableView fx:id="table" layoutX="385.0" layoutY="42.0" prefHeight="560.0" prefWidth="336.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="43.0">
+      <TableView fx:id="table" layoutX="385.0" layoutY="42.0" prefHeight="560.0" prefWidth="336.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="43.0">
         <columns>
           <TableColumn fx:id="colSr" prefWidth="46.0" text="Sr.No" />
           <TableColumn fx:id="colName" prefWidth="195.0" text="Customer Name" />

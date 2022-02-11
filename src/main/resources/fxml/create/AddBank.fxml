@@ -39,27 +39,33 @@
                   <FontAwesomeIcon glyphName="BANK" size="7em" />
                </children>
             </StackPane>
-            <Label text="Bank Name">
+            <Label text="ba^Mkocao naava">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtBankName" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Kiran" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBankName" promptText="ba^Mkocao naava" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="10.0" text="Account No">
+            <Label layoutX="10.0" layoutY="10.0" text="Aka{MT naM.">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtAccountNo" layoutX="10.0" layoutY="27.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Kiran" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtAccountNo" layoutX="10.0" layoutY="27.0" promptText="Kaatao naM." VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -78,27 +84,33 @@
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="94.0" text="Branch">
+            <Label layoutX="10.0" layoutY="94.0" text="SaaKaa">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtBranch" layoutX="10.0" layoutY="111.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Kiran" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBranch" layoutX="10.0" layoutY="111.0" promptText="SaaKaa" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="136.0" text="Woner Name">
+            <Label layoutX="10.0" layoutY="136.0" text="Kaataodar">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <TextField fx:id="txtWoner" layoutX="10.0" layoutY="153.0" promptText="Enter Customer Name" VBox.vgrow="NEVER">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Kiran" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtWoner" layoutX="10.0" layoutY="153.0" promptText="Kaataodaracao naava" VBox.vgrow="NEVER">
+               <font>
+                  <Font name="Kiran" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -161,7 +173,7 @@
             </HBox>
          </children>
       </VBox>
-      <TableView fx:id="table" layoutX="387.0" layoutY="55.0" prefHeight="569.0" prefWidth="556.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="387.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+      <TableView fx:id="table" layoutX="387.0" layoutY="55.0" prefHeight="569.0" prefWidth="556.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="387.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
          <columns>
             <TableColumn fx:id="colSrNo" prefWidth="46.0" text="Sr.No" />
             <TableColumn fx:id="colBankName" prefWidth="195.0" text="Bank Name" />

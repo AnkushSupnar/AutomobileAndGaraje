@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="636.0" prefWidth="1017.0" style="-fx-background-color: #709ed9;" stylesheets="@../css/billing.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.transaction.BillingController">
+<AnchorPane fx:id="rootPane" prefHeight="636.0" prefWidth="1017.0" style="-fx-background-color: #709ed9;" stylesheets="@../css/billing.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ankush.controller.transaction.BillingController">
    <children>
       <Pane layoutY="3.0" prefHeight="190.0" prefWidth="593.0" styleClass="box" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="3.0">
          <children>
@@ -30,7 +30,7 @@
             <Label layoutX="14.0" layoutY="54.0" text="Select Customer" />
             <TextField fx:id="txtCustomer" layoutX="14.0" layoutY="69.0" prefHeight="30.0" prefWidth="470.0">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Kiran" size="20.0" />
                </font>
             </TextField>
             <Button fx:id="btnSearch" layoutX="491.0" layoutY="72.0" mnemonicParsing="false" stylesheets="@../css/button.css" text="SEARCH">
@@ -38,7 +38,10 @@
                   <FontAwesomeIcon glyphName="SEARCH" />
                </graphic>
             </Button>
-            <TextArea fx:id="txtCustomerInfor" editable="false" layoutX="14.0" layoutY="103.0" prefHeight="77.0" prefWidth="555.0" promptText="Customer Information" />
+            <TextArea fx:id="txtCustomerInfor" editable="false" layoutX="14.0" layoutY="103.0" prefHeight="77.0" prefWidth="555.0">
+               <font>
+                  <Font name="Kiran" size="20.0" />
+               </font></TextArea>
          </children>
       </Pane>
       <Pane layoutX="5.0" layoutY="196.0" prefHeight="98.0" prefWidth="593.0" styleClass="box" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="198.0">
@@ -55,9 +58,9 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtPartName" prefHeight="30.0" prefWidth="236.0" promptText="123456456789">
+                  <TextField fx:id="txtPartName" prefHeight="30.0" prefWidth="236.0" promptText="maalaacao naava">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Kiran" size="20.0" />
                      </font>
                   </TextField>
                   <TextField fx:id="txtQty" prefHeight="30.0" prefWidth="74.0" promptText="10000.00">
@@ -115,7 +118,7 @@
             </HBox>
          </children>
       </Pane>
-      <TableView fx:id="tableTr" layoutX="10.0" layoutY="298.0" prefHeight="229.0" prefWidth="593.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="298.0">
+      <TableView fx:id="tableTr" layoutX="10.0" layoutY="298.0" prefHeight="229.0" prefWidth="593.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="298.0">
         <columns>
           <TableColumn fx:id="colNo" prefWidth="36.0" text="NO" />
           <TableColumn fx:id="colPartNo" prefWidth="114.0" text="PART NO" />
@@ -209,12 +212,17 @@
                <children>
                   <TextField fx:id="txtSearchBill" prefHeight="25.0" prefWidth="86.0" promptText="Bill No" />
                   <TextField fx:id="txtSearchCustomer" prefHeight="25.0" prefWidth="150.0" promptText="Customer Name" />
-                  <DatePicker fx:id="txtSearchDate" prefHeight="25.0" prefWidth="100.0" promptText="select date" />
+                  <DatePicker fx:id="dateSearch" prefHeight="25.0" prefWidth="100.0" promptText="select date" />
+                  <Button fx:id="btnShowAll" mnemonicParsing="false" stylesheets="@../css/button.css" text="ALL">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="EYE" />
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
          </children>
       </Pane>
-      <TableView fx:id="tableBill" layoutX="607.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
+      <TableView fx:id="tableBill" layoutX="607.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
         <columns>
           <TableColumn fx:id="colBillno" prefWidth="49.0" text="BILLNO" />
           <TableColumn fx:id="colDate" prefWidth="88.0" text="DATE" />

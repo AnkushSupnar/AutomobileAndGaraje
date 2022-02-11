@@ -7,6 +7,7 @@ import com.ankush.config.StageManager;
 import com.ankush.data.entities.*;
 import com.ankush.data.service.*;
 import com.ankush.view.AlertNotification;
+import com.ankush.view.FxmlView;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import javafx.beans.property.SimpleFloatProperty;
@@ -25,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -41,6 +43,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.util.Callback;
 @Component
 public class PurchaseInvoiceController implements Initializable {
     @Autowired @Lazy
@@ -105,6 +108,24 @@ public class PurchaseInvoiceController implements Initializable {
         colSrNo.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPartNo.setCellValueFactory(new PropertyValueFactory<>("partno"));
         colPartName.setCellValueFactory(new PropertyValueFactory<>("partname"));
+        colPartName.setCellFactory(new Callback<TableColumn<PurchaseTransaction, String>, TableCell<PurchaseTransaction, String>>() {
+            @Override
+            public TableCell<PurchaseTransaction, String> call(TableColumn<PurchaseTransaction, String> purchaseTransactionStringTableColumn) {
+                return new TableCell<PurchaseTransaction,String>(){
+                    public void updateItem(String item,boolean empty)
+                    {
+                        if(isEmpty())
+                        {
+                            setText("");
+                        }
+                        else {
+                            setFont(Font.font("Kiran",20));
+                        }
+                    }
+                };
+            }
+        });
+
         colRate.setCellValueFactory(new PropertyValueFactory<>("rate"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -121,6 +142,7 @@ public class PurchaseInvoiceController implements Initializable {
         billList.addAll(purchaseService.getInvoiceByDate(date.getValue()));
         tableBill.setItems(billList);
 
+        btnHome.setOnAction(e->stageManager.switchScene(FxmlView.HOME));
         btnSearchParty.setOnAction(e->searchParty());
         btnAddNew.setOnAction(e->addNewParty(e));
 

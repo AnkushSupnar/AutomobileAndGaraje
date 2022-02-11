@@ -23,6 +23,12 @@ public interface ItemStockRepository extends JpaRepository<ItemStock, Long> {
     @Query("update ItemStock set quantity=quantity-:qty where id=:id")
     void reduceStock(@Param("id") Long id,@Param("qty") Float qty);
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update ItemStock set quantity=quantity+:qty where id=:id")
+    void addStock(@Param("id") Long id,@Param("qty") Float qty);
+
+
     ItemStock findByItem_ItemnameAndItem_Partno(String itemname, String partno);
 
 }
